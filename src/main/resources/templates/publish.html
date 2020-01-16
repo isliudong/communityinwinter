@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>发布 - 社区</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/bootstrap.min.js"> type="application/javascript"</script>
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">社区</span>
+
+            </button>
+            <a class="navbar-brand" href="#">社区</a>
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="搜索话题">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li th:text="${session.user}"/>
+                <li class="dropdown" th:if="${session.user!=null}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.user.getName()}"> <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">我的消息</a></li>
+                        <li><a href="#">个人资料</a></li>
+                        <li><a href="#">退出登录</a></li>
+                    </ul>
+                </li>
+                <li th:unless="${session.user!=null}">
+                    <a href="https://github.com/login/oauth/authorize?client_id=40cca80d10082a99e683&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <hr>
+
+                <form action="">
+                    <div class="form-group">
+                        <label for="title">标题(简单扼要)</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="标题...">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">问题补充(参照右侧提示):</label>
+                        <textarea class="form-control" name="description" id="description" cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">标签:</label>
+                        <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签，以，号分隔">
+                    </div>
+                    <button type="button" class="btn btn-success">发布</button>
+                </form>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+                <h3>发起指南</h3>
+                。一
+                。二
+                。三
+            </div>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
