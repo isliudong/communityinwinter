@@ -25,6 +25,8 @@ MyBatis容易掌握，而Hibernate门槛较高。
  for(Teacher t: list){    
             System.out.println(t.getName());    
         }  
+        
+数据库连接池使用spring默认的HikariCP连接池
 ##快捷方式
 显示文件所在位置
 文件搜索：ctrl+shift+n

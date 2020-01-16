@@ -65,10 +65,13 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.0.1</version>
         </dependency>
+
         <dependency>
+            <!--spring默认数据连接池-->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
+
 
     </dependencies>
 
