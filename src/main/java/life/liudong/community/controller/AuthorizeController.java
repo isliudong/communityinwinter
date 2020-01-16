@@ -2,6 +2,8 @@ package life.liudong.community.controller;
 
 import life.liudong.community.dto.AccessTokenDTO;
 import life.liudong.community.dto.GithubUser;
+import life.liudong.community.mapper.UserMapper;
+import life.liudong.community.model.User;
 import life.liudong.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
+    @Autowired
+    private UserMapper userMapper;
 
     @Value("${github.client.id}")
     private String cliendId;
@@ -37,12 +42,19 @@ public class AuthorizeController {
         accessTokenDTO.setClient_secret(cliendSecret);
 
         String accessToken=githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser user=githubProvider.getUser(accessToken);
-        System.out.println(user.getName());
-        if(user!=null)
+        GithubUser githubUser=githubProvider.getUser(accessToken);
+        System.out.println(githubUser.getName());
+        if(githubUser!=null)
         {
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());//uuid主键生成策略
+            user.setName(githubUser.getName());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            userMapper.insert(user);
             //登录成功写入session
-            request.getSession().setAttribute("user",user);
+            request.getSession().setAttribute("user",githubUser);
             return "redirect:";//转发至主页，可以去掉链接后缀信息
         }else {
             return "redirect:";

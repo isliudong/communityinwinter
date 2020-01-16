@@ -21,6 +21,7 @@ mybatis是另一种持久方案的实现
 MyBatis可以进行更为细致的SQL优化，可以减少查询字段。
 MyBatis容易掌握，而Hibernate门槛较高。
 ##快捷方式
+显示文件所在位置
 文件搜索：ctrl+shift+n
 
 编辑最大化：ctrl+shift+f12
@@ -29,8 +30,21 @@ MyBatis容易掌握，而Hibernate门槛较高。
 
 浏览器匿名无个人信息：ctrl+shift+n
 
-快速匿名转显：ctrl+alt+v
+快速匿名转显,抽取变量：ctrl+alt+v
 
-重载参数查看：ctrl+
+重载参数查看：ctrl+p
+
+移除无用依赖ctrl+alt+o
+
+重命名shift+f6
+
 ##问题
 [OKHttp异常java.lang.IllegalStateException: closed](https://blog.csdn.net/u012587005/article/details/78504925)
+500报错：服务器异常
+Whitelabel Error Page
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+Thu Jan 16 16:09:13 CST 2020
+There was an unexpected error (type=Internal Server Error, status=500).
+nested exception is org.apache.ibatis.exceptions.PersistenceException: ### Error updating database. Cause: java.lang.RuntimeException: Driver org.h2.Driver claims to not accept jdbcUrl, jdbc:mysql://localhost/test ### The error may exist in life/liudong/community/mapper/UserMapper.java (best guess) ### The error may involve life.liudong.community.mapper.UserMapper.insert ### The error occurred while executing an update ### Cause: java.lang.RuntimeException: Driver org.h2.Driver claims to not accept jdbcUrl, jdbc:mysql://localhost/test
+
+h2创建用户create user sa { password '123' } admin
