@@ -20,6 +20,11 @@ Hibernate有更好的二级缓存机制，可以使用第三方缓存。MyBatis�
 mybatis是另一种持久方案的实现
 MyBatis可以进行更为细致的SQL优化，可以减少查询字段。
 MyBatis容易掌握，而Hibernate门槛较高。
+
+加强for循环
+ for(Teacher t: list){    
+            System.out.println(t.getName());    
+        }  
 ##快捷方式
 显示文件所在位置
 文件搜索：ctrl+shift+n
@@ -48,3 +53,5 @@ There was an unexpected error (type=Internal Server Error, status=500).
 nested exception is org.apache.ibatis.exceptions.PersistenceException: ### Error updating database. Cause: java.lang.RuntimeException: Driver org.h2.Driver claims to not accept jdbcUrl, jdbc:mysql://localhost/test ### The error may exist in life/liudong/community/mapper/UserMapper.java (best guess) ### The error may involve life.liudong.community.mapper.UserMapper.insert ### The error occurred while executing an update ### Cause: java.lang.RuntimeException: Driver org.h2.Driver claims to not accept jdbcUrl, jdbc:mysql://localhost/test
 
 h2创建用户create user sa { password '123' } admin
+
+@RequestParam可以获取url参数
