@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Mapper
 public interface UserMapper {
-    @Insert("insert into user(name,account_id,token,gmt_create,gmt_modified) values(#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified})")
+    @Insert("insert into user(name,account_id,token,gmt_create,gmt_modified,avatar_url) values(#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified},#{avatarUrl})")
     void insert(User user);//类自动放
 
-    @Select("select id,name,account_id as accountId,gmt_create as gmtCreate,gmt_Modified as gmtModified,token from user where token=#{token}")
+    @Select("select id,name,account_id as accountId,gmt_create as gmtCreate,gmt_Modified as gmtModified,token,avatar_url as avatarUrl from user where token=#{token}")
     User findByToken(@Param("token") String token);//单个参数添加注解@Param
 }

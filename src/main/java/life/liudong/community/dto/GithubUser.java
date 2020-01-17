@@ -4,6 +4,15 @@ public class GithubUser {
     private String name;
     private Long id;
     private String bio;
+    private String avatarUrl;
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public String getName() {
         return name;
