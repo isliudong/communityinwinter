@@ -64,3 +64,5 @@ h2创建用户create user sa { password '123' } admin
 @RequestParam可以获取url参数
 
 [使用@Autowired注解警告Field injection is not recommended](https://blog.csdn.net/zhangjingao/article/details/81094529)
+
+前端input，用value、text用text
