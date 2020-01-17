@@ -47,6 +47,9 @@ flyway migration可以简化多人数据库操作，提高数据库维护能力�
 
 重命名shift+f6
 
+节点扩选ctrl+w
+
+格式化 ctrl+alt+l
 ##问题
 [OKHttp异常java.lang.IllegalStateException: closed](https://blog.csdn.net/u012587005/article/details/78504925)
 500报错：服务器异常

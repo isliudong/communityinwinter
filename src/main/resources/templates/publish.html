@@ -5,7 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/community.css">
     <script src="js/bootstrap.min.js"> type="application/javascript"</script>
+
 
 </head>
 <body>
@@ -45,36 +47,37 @@
             </ul>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                <hr>
 
-                <form action="">
-                    <div class="form-group">
-                        <label for="title">标题(简单扼要)</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="标题...">
-                    </div>
-                    <div class="form-group">
-                        <label for="description">问题补充(参照右侧提示):</label>
-                        <textarea class="form-control" name="description" id="description" cols="30" rows="10"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="title">标签:</label>
-                        <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签，以，号分隔">
-                    </div>
-                    <button type="button" class="btn btn-success">发布</button>
-                </form>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
-                <h3>发起指南</h3>
-                。一
-                。二
-                。三
-            </div>
+</nav>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
+            <hr>
+
+            <form action="">
+                <div class="form-group">
+                    <label for="title">标题(简单扼要)</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="标题...">
+                </div>
+                <div class="form-group">
+                    <label for="description">问题补充(参照右侧提示):</label>
+                    <textarea class="form-control" name="description" id="description" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="title">标签:</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签，以，号分隔">
+                </div>
+                <button type="button" class="btn btn-success btn-publish">发布</button>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+            <h3>发起指南</h3>
+            。一<br>
+            。二<br>
+            。三<br>
         </div>
     </div>
-</nav>
+</div>
 </body>
 </html>
