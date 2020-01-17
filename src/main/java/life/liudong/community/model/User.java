@@ -62,9 +62,6 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", accountId='" + accountId + '\'' +
-                ", token='" + token + '\'' +
-                ", gmtCreate=" + gmtCreate +
-                ", gmtModified=" + gmtModified +
                 '}';
     }
 }
