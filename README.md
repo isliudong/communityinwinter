@@ -66,3 +66,5 @@ h2创建用户create user sa { password '123' } admin
 [使用@Autowired注解警告Field injection is not recommended](https://blog.csdn.net/zhangjingao/article/details/81094529)
 
 前端input，用value、text用text
+
+mybatis _转换驼峰规则(配置mybatis.configuration.map-underscore-to-camel-case=true即可)

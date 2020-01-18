@@ -9,3 +9,12 @@ body{
     float: right;
     margin-bottom: 15px;
 }
+.media-object {
+    width: 40px;
+    height: 40px;
+}
+.aw-question-content {
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}

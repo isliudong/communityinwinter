@@ -15,4 +15,7 @@ public interface UserMapper {
 
     @Select("select id,name,account_id as accountId,gmt_create as gmtCreate,gmt_Modified as gmtModified,token,avatar_url as avatarUrl from user where token=#{token}")
     User findByToken(@Param("token") String token);//单个参数添加注解@Param
+
+    @Select("select id,name,account_id as accountId,gmt_create as gmtCreate,gmt_Modified as gmtModified,token,avatar_url as avatarUrl from user where id=#{id}")
+    User findById(@Param("id") Integer id);
 }
