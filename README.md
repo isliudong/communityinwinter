@@ -1,5 +1,5 @@
 ##社区
-
+2020寒冬哥成长计划
 ##资料
 [文档](https://spring.io/guides)
 
@@ -50,6 +50,10 @@ flyway migration可以简化多人数据库操作，提高数据库维护能力�
 节点扩选ctrl+w
 
 格式化 ctrl+alt+l
+
+当前网页搜索ctrl+f
+
+idea参数配置Shift+Ctrl+Alt+/
 ##问题
 [OKHttp异常java.lang.IllegalStateException: closed](https://blog.csdn.net/u012587005/article/details/78504925)
 500报错：服务器异常
