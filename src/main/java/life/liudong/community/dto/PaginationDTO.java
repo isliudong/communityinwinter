@@ -17,24 +17,23 @@ public class PaginationDTO {
 
 
     //未对page参数进行合法判断
-    public void setPagination(Integer totalCount, Integer page, Integer size) {
+    public void setPagination(Integer totalPage, Integer page) {
+        this.totalPage=totalPage;
         //Integer totalPage;//页数
         Integer temp;//当前包含页码
         this.page=page;
-
-
-        if(totalCount%size==0){
-            totalPage=totalCount/size;
-        }
-        else {totalPage=totalCount/size+1;}
 
         //当前页包含页码设置
         for(int i=-3;i<4;i++)
         {
             temp=page+i;
-            if (temp>0)
+            if (temp>0&&temp<=totalPage)
+            {
+
                 pages.add(temp);
+            }
             else {
+                if(temp<totalPage)
                 i--;
                 page++;
             }
