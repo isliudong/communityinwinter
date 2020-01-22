@@ -53,6 +53,15 @@ public class QuestionService {
 
     public PaginationDTO list(Integer userId, Integer page, Integer size) {
         Integer totalPage;
+        Integer totalCount=questionMapper.countByUserId(userId);
+        if(totalCount%size==0){
+            totalPage=totalCount/size;
+        }
+        else {totalPage=totalCount/size+1;}
+        if (page<1)
+            page=1;
+        else if (page>totalPage)
+            page=totalPage;
         Integer offset=size*(page-1);//分页参数
         List<Question> questionList=questionMapper.listByUserId(userId,offset,size);
         List<QuestionDTO> questionDTOList=new ArrayList<>();
@@ -66,15 +75,8 @@ public class QuestionService {
 
         PaginationDTO paginationDTO=new PaginationDTO();
         paginationDTO.setQuestionList(questionDTOList);
-        Integer totalCount=questionMapper.countByUserId(userId);
-        if(totalCount%size==0){
-            totalPage=totalCount/size;
-        }
-        else {totalPage=totalCount/size+1;}
-        if (page<1)
-            page=1;
-        else if (page>totalPage)
-            page=totalPage;
+
+
 
         paginationDTO.setPagination(totalPage,page);
 
