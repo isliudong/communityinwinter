@@ -1,10 +1,7 @@
 package life.liudong.community.mapper;
 
 import life.liudong.community.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,4 +15,9 @@ public interface UserMapper {
 
     @Select("select id,name,account_id as accountId,gmt_create as gmtCreate,gmt_Modified as gmtModified,token,avatar_url as avatarUrl from user where id=#{id}")
     User findById(@Param("id") Integer id);
+    @Select("select id,name,account_id as accountId,gmt_create as gmtCreate,gmt_Modified as gmtModified,token,avatar_url as avatarUrl from user where account_id=#{accountId}")
+    User findByAccountId(@Param(value = "accountId") String accountId);
+
+    @Update("update user set name=#{name},token=#{token},gmt_Modified=#{gmtModified},avatar_url=#{avatarUrl} where id=#{id}")
+    void update(User user);
 }

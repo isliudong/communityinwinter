@@ -5,13 +5,16 @@ import life.liudong.community.dto.GithubUser;
 import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.User;
 import life.liudong.community.provider.GithubProvider;
+import life.liudong.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -21,8 +24,7 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
 
     @Autowired
-    private UserMapper userMapper;
-
+    private UserService userService;
     @Value("${github.client.id}")
     private String cliendId;
 
@@ -49,15 +51,14 @@ public class AuthorizeController {
         System.out.println(githubUser.getName());
         if(githubUser!=null)
         {
+
             User user = new User();
             String token = UUID.randomUUID().toString();//uuid主键生成策略
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user);
+            userService.createOrUpdeate(user);
             //登录成功将token写入Cookie
             response.addCookie(new Cookie("token",token));
             return "redirect:";//转发至主页，可以去掉链接后缀信息
@@ -66,5 +67,12 @@ public class AuthorizeController {
             //登录失败
         }
 
+    }
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request ,HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie cookie=new Cookie("token",null);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }

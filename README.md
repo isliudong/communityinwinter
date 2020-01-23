@@ -7,7 +7,6 @@
 
 [git授权](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/)
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/5.0.3.RELEASE/spring-framework-reference/index.html)
-[SpringBoot使用EnableWebMvc无法加载静态页面的问题解决](https://blog.csdn.net/icarusliu/article/details/82792255)
 ##工具
 
 ##技术点
