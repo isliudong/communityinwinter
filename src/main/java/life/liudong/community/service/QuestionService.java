@@ -92,4 +92,17 @@ public class QuestionService {
         BeanUtils.copyProperties(question,questionDTO);
         return questionDTO;
     }
+
+    public void createOrUpdate(Question question) {
+        if (question.getId()==null)
+        {
+            question.setGmt_create(System.currentTimeMillis());
+            question.setGmt_modified(question.getGmt_create());
+            questionMapper.create(question);
+        }
+        else {
+            question.setGmt_modified(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
+    }
 }
