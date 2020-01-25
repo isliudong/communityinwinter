@@ -2,8 +2,11 @@ package life.liudong.community.service;
 
 import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.User;
+import life.liudong.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -12,8 +15,13 @@ public class UserService {
     private UserMapper userMapper;
 
     public void createOrUpdeate(User user) {
-        User dbuser=userMapper.findByAccountId(user.getAccountId());
-        if (dbuser==null)
+
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+
+        List<User> users = userMapper.selectByExample(userExample);
+
+        if (users.size()==0)
         {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
@@ -21,11 +29,19 @@ public class UserService {
         }
         else
         {
-            dbuser.setGmtModified(System.currentTimeMillis());
-            dbuser.setAvatarUrl(user.getAvatarUrl());
-            dbuser.setName(user.getName());
-            dbuser.setToken(user.getToken());
-            userMapper.update(dbuser);
+            User dbUser = users.get(0);
+
+
+
+            User updateUser = new User();
+            updateUser.setGmtModified(System.currentTimeMillis());
+            updateUser.setAvatarUrl(user.getAvatarUrl());
+            updateUser.setName(user.getName());
+            updateUser.setToken(user.getToken());
+            UserExample example = new UserExample();
+            example.createCriteria().andIdEqualTo(dbUser.getId());
+            userMapper.updateByExampleSelective(updateUser, example);
+
         }
     }
 }

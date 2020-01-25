@@ -30,6 +30,8 @@ MyBatis容易掌握，而Hibernate门槛较高。
 数据库连接池使用spring默认的HikariCP连接池
 
 flyway migration可以简化多人数据库操作，提高数据库维护能力给后
+
+maven启动mybatis generator 指令：mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 ##快捷方式
 显示文件所在位置
 文件搜索：ctrl+shift+n
