@@ -32,8 +32,13 @@ MyBatis容易掌握，而Hibernate门槛较高。
 flyway migration可以简化多人数据库操作，提高数据库维护能力给后
 
 maven启动mybatis generator 指令：mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+
+调用枚举类的枚举值，即调用枚举值的构造函数
 ##快捷方式
 显示文件所在位置
+
+最近文件:ctrl+e
+
 文件搜索：ctrl+shift+n
 
 编辑最大化：ctrl+shift+f12
@@ -44,7 +49,7 @@ maven启动mybatis generator 指令：mvn -Dmybatis.generator.overwrite=true myb
 
 快速匿名转显,抽取变量：ctrl+alt+v
 
-重载参数查看：ctrl+p
+参数查看：ctrl+p
 
 移除无用依赖ctrl+alt+o
 
@@ -57,6 +62,7 @@ maven启动mybatis generator 指令：mvn -Dmybatis.generator.overwrite=true myb
 当前网页搜索ctrl+f
 
 idea参数配置Shift+Ctrl+Alt+/
+[其他详见：](https://blog.csdn.net/zhuwinmin/article/details/72841061)
 ##问题
 [OKHttp异常java.lang.IllegalStateException: closed](https://blog.csdn.net/u012587005/article/details/78504925)
 500报错：服务器异常

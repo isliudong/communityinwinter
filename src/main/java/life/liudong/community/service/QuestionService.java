@@ -2,6 +2,8 @@ package life.liudong.community.service;
 
 import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
+import life.liudong.community.exception.CustomizeErrorCode;
+import life.liudong.community.exception.CustormizeException;
 import life.liudong.community.mapper.QuestionMapper;
 import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.Question;
@@ -98,6 +100,9 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question=questionMapper.selectByPrimaryKey(id);
+        if (question==null) {
+            throw new CustormizeException(CustomizeErrorCode.QUESTION_nOT_FOUND);
+        }
         User user=userMapper.selectByPrimaryKey(question.getCreator());
         QuestionDTO questionDTO=new QuestionDTO();
         questionDTO.setUser(user);
@@ -121,7 +126,10 @@ public class QuestionService {
             updateQuestion.setDescription(question.getDescription());
             QuestionExample questionExample = new QuestionExample();
             questionExample.createCriteria().andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+            int updated=questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+            if (updated!=1){
+                throw new CustormizeException(CustomizeErrorCode.QUESTION_nOT_FOUND);
+            }
         }
     }
 }
