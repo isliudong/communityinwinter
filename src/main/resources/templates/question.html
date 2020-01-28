@@ -20,8 +20,8 @@
             <h2><span th:text="${question.title}"></span> </h2>
             <span class="aw-question-content">
                 作者：<span th:text="${question.user.name}"></span> |
-                发布时间：<span th:text="${#dates.format(question.gmt_create,'HH: mm dd/MM/yyyy')}"></span> |
-                阅读数：<span th:text="${question.view_count}"></span>
+                发布时间：<span th:text="${#dates.format(question.gmtCreate,'HH: mm dd/MM/yyyy')}"></span> |
+                阅读数：<span th:text="${question.viewCount}"></span>
             </span>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 

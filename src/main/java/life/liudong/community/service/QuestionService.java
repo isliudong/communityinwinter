@@ -4,6 +4,7 @@ import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
 import life.liudong.community.exception.CustomizeErrorCode;
 import life.liudong.community.exception.CustormizeException;
+import life.liudong.community.mapper.QuestionExtMapper;
 import life.liudong.community.mapper.QuestionMapper;
 import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.Question;
@@ -19,6 +20,8 @@ import java.util.List;
 
 @Service
 public class QuestionService {
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -131,5 +134,14 @@ public class QuestionService {
                 throw new CustormizeException(CustomizeErrorCode.QUESTION_nOT_FOUND);
             }
         }
+    }
+
+    public void incView(Integer id) {
+
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
+
     }
 }
