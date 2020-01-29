@@ -11,14 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 import sun.applet.resources.MsgAppletViewer;
 
 import javax.servlet.http.HttpServletRequest;
-
+//全局异常切面
 @ControllerAdvice
 public class CustomizeExceptionHandler {
     @ExceptionHandler(Exception.class)
-    //@ResponseBody前后端分离返回json
     ModelAndView handle(Throwable ex, Model model) {
         //HttpStatus status = getStatus(request);
-
 
         if (ex instanceof CustormizeException){
             model.addAttribute("message", ex.getMessage());
