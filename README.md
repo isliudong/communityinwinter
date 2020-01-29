@@ -1,4 +1,4 @@
-##社区
+##西柚社区
 2020寒冬哥成长计划
 ##资料
 [文档](https://spring.io/guides)
@@ -34,6 +34,8 @@ flyway migration可以简化多人数据库操作，提高数据库维护能力�
 maven启动mybatis generator 指令：mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 
 调用枚举类的枚举值，即调用枚举值的构造函数
+
+@RequestParam定义接受参数，参数过多可以用@RequestBody封装
 ##快捷方式
 显示文件所在位置
 
