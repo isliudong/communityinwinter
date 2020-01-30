@@ -1,17 +1,20 @@
 package life.liudong.community.exception;
 
-public class CustormizeException extends RuntimeException{
+public class CustormizeException extends RuntimeException {
     private String message;
+    private Integer code;
 
-    public CustormizeException(ICustomizeErrorCode errorCode){
-        this.message=errorCode.getMessage();
+    public CustormizeException(ICustomizeErrorCode errorCode) {
+        this.message = errorCode.getMessage();
+        this.code = errorCode.getCode();
     }
 
-    public CustormizeException(String message){
-        this.message=message;
-    }
     @Override
-    public String getMessage(){
+    public String getMessage() {
         return message;
+    }
+
+    public Integer getCode() {
+        return code;
     }
 }
