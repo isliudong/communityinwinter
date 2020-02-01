@@ -10,6 +10,7 @@ import life.liudong.community.model.Comment;
 import life.liudong.community.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommentService {
@@ -21,6 +22,7 @@ public class CommentService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
+    @Transactional//开启事务
     public void insert(Comment comment) {
         if (comment.getParentId()==null||comment.getParentId()==0){
             throw new CustormizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);

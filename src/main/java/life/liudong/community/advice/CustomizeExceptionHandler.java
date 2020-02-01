@@ -47,7 +47,7 @@ public class CustomizeExceptionHandler {
             } catch (IOException ioe) {
                 //e.printStackTrace();
             }
-            return null;
+            return null;//不反回页面
 
         }
         else {
