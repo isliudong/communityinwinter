@@ -4,19 +4,14 @@ import com.alibaba.fastjson.JSON;
 import life.liudong.community.dto.ResultDTO;
 import life.liudong.community.exception.CustomizeErrorCode;
 import life.liudong.community.exception.CustormizeException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import sun.applet.resources.MsgAppletViewer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PipedWriter;
 import java.io.PrintWriter;
 
 //全局异常切面

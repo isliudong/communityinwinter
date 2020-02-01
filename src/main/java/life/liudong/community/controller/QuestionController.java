@@ -1,7 +1,6 @@
 package life.liudong.community.controller;
 
 import life.liudong.community.dto.QuestionDTO;
-import life.liudong.community.mapper.QuestionMapper;
 import life.liudong.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

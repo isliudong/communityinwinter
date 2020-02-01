@@ -2,7 +2,6 @@ package life.liudong.community.controller;
 
 import life.liudong.community.dto.AccessTokenDTO;
 import life.liudong.community.dto.GithubUser;
-import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.User;
 import life.liudong.community.provider.GithubProvider;
 import life.liudong.community.service.UserService;

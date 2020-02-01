@@ -1,7 +1,6 @@
 package life.liudong.community.controller;
 
 import life.liudong.community.dto.QuestionDTO;
-import life.liudong.community.mapper.QuestionMapper;
 import life.liudong.community.model.Question;
 import life.liudong.community.model.User;
 import life.liudong.community.service.QuestionService;
