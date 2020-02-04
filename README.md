@@ -6,7 +6,12 @@
 [文档](https://v3.bootcss.com/components/#progress)
 
 [git授权](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/)
+
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/5.0.3.RELEASE/spring-framework-reference/index.html)
+
+[Spring注入要点](https://www.cnblogs.com/tootwo2/p/6790754.html)
+
+[Spring事务实现](https://blog.csdn.net/mawenshu316143866/article/details/81281443)
 ##工具
 
 ##技术点
@@ -36,6 +41,9 @@ maven启动mybatis generator 指令：mvn -Dmybatis.generator.overwrite=true myb
 调用枚举类的枚举值，即调用枚举值的构造函数
 
 @RequestParam定义接受参数，参数过多可以用@RequestBody封装
+
+localstorage网站本地持久存储数据
+
 ##快捷方式
 显示文件所在位置
 

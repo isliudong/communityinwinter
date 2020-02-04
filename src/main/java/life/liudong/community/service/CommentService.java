@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CommentService {
 
-    @Autowired
+    @Autowired(required = false)
     private CommentMapper commentMapper;
     @Autowired
     private QuestionMapper questionMapper;
