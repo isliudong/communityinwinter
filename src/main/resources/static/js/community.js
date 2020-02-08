@@ -3,6 +3,10 @@ function post() {
     let questionId = $("#question_id").val();
     let content = $("#comment_content").val();
 
+    if (!content){
+        alert("内容为空~");
+        return;
+    }
 
     $.ajax({
         type: "POST",
@@ -15,7 +19,8 @@ function post() {
         }),
         success: function (response) {
             if (response.code == 200) {
-                $("#comment_section").hide();
+                window.location.reload();
+                //$("#comment_section").hide();
             } else {
                 if (response.code == 2003) {
 

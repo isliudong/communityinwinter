@@ -9,6 +9,7 @@ import life.liudong.community.model.Comment;
 import life.liudong.community.model.User;
 import life.liudong.community.service.CommentService;
 import life.liudong.community.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class CommentController {
     @Autowired
-    private CommentMapper commentMapper;
-
-    @Autowired
     private CommentService commentService;
 
     @ResponseBody//通过json返回数据
@@ -35,6 +33,10 @@ public class CommentController {
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
         }
 
+        //验证评论是否为空
+        if (commentCreateDTO==null|| StringUtils.isBlank(commentCreateDTO.getContent())){
+            return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
+        }
 
         Comment comment=new Comment();
         comment.setContent(commentCreateDTO.getContent());

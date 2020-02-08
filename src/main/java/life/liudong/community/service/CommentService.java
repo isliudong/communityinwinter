@@ -68,6 +68,8 @@ public class CommentService {
     public List<CommentDTO> listByQuestionId(Long id) {
         CommentExample example = new CommentExample();
         example.createCriteria().andParentIdEqualTo(id).andTypeEqualTo(CommentTypeEnum.QUESTION.getType());//type为question类型，回复有两种类型，此处为问题回复
+        //倒序
+        example.setOrderByClause("gmt_create desc");
         List<Comment> commentList = commentMapper.selectByExample(example);
 
         if (commentList.size()==0){
