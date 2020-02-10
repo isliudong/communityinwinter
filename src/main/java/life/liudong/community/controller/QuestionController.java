@@ -1,8 +1,8 @@
 package life.liudong.community.controller;
 
-import life.liudong.community.dto.CommentCreateDTO;
 import life.liudong.community.dto.CommentDTO;
 import life.liudong.community.dto.QuestionDTO;
+import life.liudong.community.enums.CommentTypeEnum;
 import life.liudong.community.service.CommentService;
 import life.liudong.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class QuestionController {
     public String question(@PathVariable(name = "id") Long id, Model model){
 
         QuestionDTO questionDTO=questionService.getById(id);
-        List<CommentDTO> comments=commentService.listByQuestionId(id);
+        List<CommentDTO> comments= commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 
 
         //增加阅读
