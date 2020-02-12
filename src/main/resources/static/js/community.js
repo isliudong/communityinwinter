@@ -1,4 +1,4 @@
-//提交回复
+//提交问题一级回复
 function post() {
 
     let questionId = $("#question_id").val();
@@ -6,6 +6,7 @@ function post() {
     comment2target(questionId, 1, content);
 }
 
+//回复接口
 function comment2target(targetId, type, content) {
 
     if (!content) {
@@ -66,33 +67,60 @@ function collapseComments(e) {
         e.removeAttribute("data-collapse");
         e.classList.remove("active");
     } else {
-        $.getJSON("/comment/" + id, function (data) {
-            console.log(data);
-            let commentBody = $("comment-body-" + id);
-            let items = [];
-
-
-            //拼接二级评论页面
-            $.each(data.data, function (comment) {
-                var c=$("<div/>", {
-                    "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
-                    html: comment.content
-                });
-                items.push(c);
-            });
-
-            $("<div/>", {
-                "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments", "id": "comment-id" + id,
-                html: items.join("")
-            }).appendTo(commentBody);
-
-
+        var subCommentContainer = $("#comment-" + id);
+        //判断是否加载过，已经加载过则不再刷新
+        if (subCommentContainer.children().length != 1) {
             //展开二级评论
             comments.addClass("in");
             //标记二级评论展开状态
             e.setAttribute("data-collapse", "in");
             e.classList.add("active");
-        });
+        } else {
+            //获取评论并显示
+            $.getJSON("/comment/" + id, function (data) {
+
+                //拼接二级评论页面(非常麻烦，所以有vue等框架)
+                $.each(data.data.reverse(), function (index, comment) {
+
+                    var mediaBodyElement = $("<div/>", {
+                        "class":"media-body"
+                    }).append($("<h5/>",{
+                        "class":"media-heading",
+                        "html":comment.user.name
+                    })).append($("<div/>", {
+                        "html": comment.content
+                    })).append($("<div/>", {
+                        "class":"menu"
+                    }).append($("<span/>", {
+                        "class":"pull-right",
+                        "html":moment(comment.gmtCreate).format('HH: mm DD/MM/YYYY')
+                    })));
+                    var avatarElement = $("<img/>", {
+                        "class": "media-object img-rounded",
+                        "src": comment.user.avatarUrl
+                    });
+                    var mediaLeftElement = $("<div/>", {
+                        "class": "media-left"
+                    });
+                    mediaLeftElement.append(avatarElement);
+                    var mediaElement = $("<div/>", {
+                        "class": "media"
+                    });
+                    mediaElement.append(mediaLeftElement).append(mediaBodyElement);
+                    var commentElement = $("<div/>", {
+                        "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 comments"
+                    });
+                    commentElement.append(mediaElement);
+                    subCommentContainer.prepend(commentElement);
+                });
+                //展开二级评论
+                comments.addClass("in");
+                //标记二级评论展开状态
+                e.setAttribute("data-collapse", "in");
+                e.classList.add("active");
+            });
+
+        }
 
     }
 

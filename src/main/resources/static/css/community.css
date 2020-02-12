@@ -63,14 +63,17 @@ body {
     margin-right: 10px;
     cursor: pointer;
 }
-
-.icon:hover {
+.comment-icon {
+    font-size: 15px;
+    cursor: pointer;
+}
+.comment-icon:hover {
+    color: #499ef3;
+}
+.comment-icon.active {
     color: #499ef3;
 }
 
-.icon.active {
-    color: #499ef3;
-}
 
 .comments {
     padding-bottom: 5px;
@@ -93,3 +96,4 @@ body {
 .sub-comments .btn{
     margin: 10px 0;
 }
+

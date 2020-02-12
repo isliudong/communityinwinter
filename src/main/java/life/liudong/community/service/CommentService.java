@@ -4,10 +4,7 @@ import life.liudong.community.dto.CommentDTO;
 import life.liudong.community.enums.CommentTypeEnum;
 import life.liudong.community.exception.CustomizeErrorCode;
 import life.liudong.community.exception.CustormizeException;
-import life.liudong.community.mapper.CommentMapper;
-import life.liudong.community.mapper.QuestionExtMapper;
-import life.liudong.community.mapper.QuestionMapper;
-import life.liudong.community.mapper.UserMapper;
+import life.liudong.community.mapper.*;
 import life.liudong.community.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,8 @@ public class CommentService {
     private QuestionExtMapper questionExtMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private CommentExtMapper commentExtMapper;
 
     @Transactional//开启事务
     public void insert(Comment comment) {
@@ -47,6 +46,11 @@ public class CommentService {
             Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
             if (dbComment!=null){
                 commentMapper.insert(comment);
+                Comment parentComment = new Comment();
+                //增加评论数
+                parentComment.setId(comment.getParentId());
+                parentComment.setCommentCount(1);
+                commentExtMapper.incCommentCount(parentComment);
             }
             else {throw new CustormizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);}
 
