@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>发布 - 社区</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/community.css">
     <script src="/js/jquery-3.4.1.min.js"></script>
-    <script src="/js/bootstrap.min.js"> type="application/javascript"</script>
-
+    <script src="/js/bootstrap.min.js"> type = "application/javascript"</script>
+    <script src="js/community.js"></script>
 
 
 </head>
@@ -16,7 +16,7 @@
 <div th:insert="navigation::nav"></div>
 <div class="container-fluid main">
     <div class="row">
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr>
 
@@ -24,22 +24,104 @@
                 <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">标题(简单扼要)</label>
-                    <input type="text" class="form-control"  th:value="${title}" id="title" name="title" placeholder="标题...">
+                    <input type="text" autocomplete="off" class="form-control" th:value="${title}" id="title"
+                           name="title" placeholder="标题...">
                 </div>
                 <div class="form-group">
                     <label for="description">问题补充(参照右侧提示):</label>
-                    <textarea class="form-control" th:text="${description}" name="description" id="description" cols="30" rows="10"></textarea>
+                    <textarea class="form-control" th:text="${description}" name="description" id="description"
+                              cols="30" rows="10"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tag">标签:</label>
-                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="输入标签，以，号分隔">
+                    <input type="text" autocomplete="off" class="form-control" th:value="${tag}" id="tag" name="tag"
+                           placeholder="输入标签，以，号分隔"
+                    onclick="showSelectTag()">
+                    <!--标签选择-->
+                    <div id="selectTag"  class="publish-tag-tab">
+
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                                          data-toggle="tab">开发语言</a></li>
+                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
+                                                           data-toggle="tab">平台框架</a></li>
+                                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab"
+                                                           data-toggle="tab">Messages</a></li>
+                                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab"
+                                                           data-toggle="tab">Settings</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="home">
+                                    <span class="label label-info question-tag" onclick="selectTag('tag1')">
+                                         <span class="glyphicon glyphicon-tags"></span>
+                                         <span>tag1</span>
+                                    </span>
+                                    <span class="label label-info question-tag" onclick="selectTag('tag2')">
+                                         <span class="glyphicon glyphicon-tags"></span>
+                                         <span>tag2</span>
+                                    </span>
+                                    <span class="label label-info question-tag" onclick="selectTag('tag3')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>tag3</span>
+                                    </span>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="profile">
+                                    <span class="label label-info question-tag" onclick="selectTag('tag4')">
+                                         <span class="glyphicon glyphicon-tags"></span>
+                                         <span>tag4</span>
+                                    </span>
+                                    <span class="label label-info question-tag" onclick="selectTag('tag5')">
+                                         <span class="glyphicon glyphicon-tags"></span>
+                                         <span>tag5</span>
+                                    </span>
+                                    <span class="label label-info question-tag" onclick="selectTag('tag6')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>tag6</span>
+                                    </span>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="messages">
+                                    <span class="label label-info question-tag" onclick="selectTag('tag7')">
+                                         <span class="glyphicon glyphicon-tags"></span>
+                                         <span>tag7</span>
+                                    </span>
+                                    <span class="label label-info question-tag" onclick="selectTag('tag8')">
+                                         <span class="glyphicon glyphicon-tags"></span>
+                                         <span>tag8</span>
+                                    </span>
+                                    <span class="label label-info question-tag" onclick="selectTag('tag9')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>tag9</span>
+                                    </span>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="settings">
+                                    <span class="label label-info question-tag" onclick="selectTag('tag10')">
+                                         <span class="glyphicon glyphicon-tags"></span>
+                                         <span>tag10</span>
+                                    </span>
+                                    <span class="label label-info question-tag" onclick="selectTag('tag11')">
+                                         <span class="glyphicon glyphicon-tags"></span>
+                                         <span>tag11</span>
+                                    </span>
+                                    <span class="label label-info question-tag" onclick="selectTag('tag12')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>tag12</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
                 </div>
 
                 <div class="alert alert-danger" role="alert" th:if="${error}!=null" th:text="${error}">...</div>
                 <button type="submit" class="btn btn-success btn-publish">发布</button>
             </form>
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>发起指南</h3>
             。一<br>
             。二<br>

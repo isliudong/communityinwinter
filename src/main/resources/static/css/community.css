@@ -107,3 +107,8 @@ body {
      padding-left: 0;
      list-style: none;
  }
+
+.publish-tag-tab {
+    display: none;
+    margin-top: 10px;
+}

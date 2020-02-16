@@ -83,17 +83,17 @@ function collapseComments(e) {
                 $.each(data.data.reverse(), function (index, comment) {
 
                     var mediaBodyElement = $("<div/>", {
-                        "class":"media-body"
-                    }).append($("<h5/>",{
-                        "class":"media-heading",
-                        "html":comment.user.name
+                        "class": "media-body"
+                    }).append($("<h5/>", {
+                        "class": "media-heading",
+                        "html": comment.user.name
                     })).append($("<div/>", {
                         "html": comment.content
                     })).append($("<div/>", {
-                        "class":"menu"
+                        "class": "menu"
                     }).append($("<span/>", {
-                        "class":"pull-right",
-                        "html":moment(comment.gmtCreate).format('HH: mm DD/MM/YYYY')
+                        "class": "pull-right",
+                        "html": moment(comment.gmtCreate).format('HH: mm DD/MM/YYYY')
                     })));
                     var avatarElement = $("<img/>", {
                         "class": "media-object img-rounded",
@@ -119,9 +119,26 @@ function collapseComments(e) {
                 e.setAttribute("data-collapse", "in");
                 e.classList.add("active");
             });
-
         }
 
     }
+
+}
+
+//发布问题选择问题标签
+function selectTag(value) {
+    let previous = $("#tag").val();
+    if (previous.split(',').indexOf(value) == -1) {
+        if (previous) {
+            $("#tag").val(previous + ',' + value);
+        } else {
+            $("#tag").val(value);
+        }
+    }
+}
+
+//展示标签库
+function showSelectTag() {
+    $("#selectTag").show();
 
 }
