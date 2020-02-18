@@ -114,5 +114,13 @@ body {
     padding-top: 10px;
 }
 .publish-tag-tab .label-info {
-    margin-right: 10px;
+    margin: 5px 5px;
+    white-space: normal;
+    display: inline-block;
 }
+.publish-tag-tab .label-info .glyphicon{
+    top: 0px;
+    right: 2px;
+}
+
+

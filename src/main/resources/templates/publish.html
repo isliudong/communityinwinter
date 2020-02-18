@@ -42,16 +42,17 @@
 
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" th:each="selectTag:${tags}"><a th:href="${'#'+selectTag.categoryName}" aria-controls="home" role="tab"
-                                                                          data-toggle="tab" th:text="${selectTag.categoryName}"></a></li>
+                                <li role="presentation" th:each="selectTag,selectTagState:${tags}" th:class="${selectTagState.first? 'active':''}">
+                                    <a th:href="${'#'+selectTag.categoryName}"  aria-controls="home" role="tab" data-toggle="tab" th:text="${selectTag.categoryName}"></a>
+                                </li>
                             </ul>
 
                             <!-- Tab panes -->
                             <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane" th:id="${selectTag.categoryName}" th:each="selectTag:${tags}">
+                                <div role="tabpanel" class="tab-pane" th:id="${selectTag.categoryName}" th:each="selectTag,selectTagState:${tags}" th:class="${selectTagState.first? 'active':''}">
                                     <span class="label label-info question-tag" onclick="selectTag(this)" th:data-tagName="${tagName}" th:each="tagName:${selectTag.tag}">
-                                         <span class="glyphicon glyphicon-tags"></span>
-                                         <span th:text="${tagName}"></span>
+                                         <span class="glyphicon glyphicon-tags" th:text="${' '+tagName}"></span>
+
                                     </span>
                                 </div>
 
