@@ -42,74 +42,19 @@
 
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
-                                                                          data-toggle="tab">开发语言</a></li>
-                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
-                                                           data-toggle="tab">平台框架</a></li>
-                                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab"
-                                                           data-toggle="tab">Messages</a></li>
-                                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab"
-                                                           data-toggle="tab">Settings</a></li>
+                                <li role="presentation" th:each="selectTag:${tags}"><a th:href="${'#'+selectTag.categoryName}" aria-controls="home" role="tab"
+                                                                          data-toggle="tab" th:text="${selectTag.categoryName}"></a></li>
                             </ul>
 
                             <!-- Tab panes -->
                             <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="home">
-                                    <span class="label label-info question-tag" onclick="selectTag('tag1')">
+                                <div role="tabpanel" class="tab-pane" th:id="${selectTag.categoryName}" th:each="selectTag:${tags}">
+                                    <span class="label label-info question-tag" onclick="selectTag(this)" th:data-tagName="${tagName}" th:each="tagName:${selectTag.tag}">
                                          <span class="glyphicon glyphicon-tags"></span>
-                                         <span>tag1</span>
-                                    </span>
-                                    <span class="label label-info question-tag" onclick="selectTag('tag2')">
-                                         <span class="glyphicon glyphicon-tags"></span>
-                                         <span>tag2</span>
-                                    </span>
-                                    <span class="label label-info question-tag" onclick="selectTag('tag3')">
-                                        <span class="glyphicon glyphicon-tags"></span>
-                                        <span>tag3</span>
+                                         <span th:text="${tagName}"></span>
                                     </span>
                                 </div>
-                                <div role="tabpanel" class="tab-pane" id="profile">
-                                    <span class="label label-info question-tag" onclick="selectTag('tag4')">
-                                         <span class="glyphicon glyphicon-tags"></span>
-                                         <span>tag4</span>
-                                    </span>
-                                    <span class="label label-info question-tag" onclick="selectTag('tag5')">
-                                         <span class="glyphicon glyphicon-tags"></span>
-                                         <span>tag5</span>
-                                    </span>
-                                    <span class="label label-info question-tag" onclick="selectTag('tag6')">
-                                        <span class="glyphicon glyphicon-tags"></span>
-                                        <span>tag6</span>
-                                    </span>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="messages">
-                                    <span class="label label-info question-tag" onclick="selectTag('tag7')">
-                                         <span class="glyphicon glyphicon-tags"></span>
-                                         <span>tag7</span>
-                                    </span>
-                                    <span class="label label-info question-tag" onclick="selectTag('tag8')">
-                                         <span class="glyphicon glyphicon-tags"></span>
-                                         <span>tag8</span>
-                                    </span>
-                                    <span class="label label-info question-tag" onclick="selectTag('tag9')">
-                                        <span class="glyphicon glyphicon-tags"></span>
-                                        <span>tag9</span>
-                                    </span>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="settings">
-                                    <span class="label label-info question-tag" onclick="selectTag('tag10')">
-                                         <span class="glyphicon glyphicon-tags"></span>
-                                         <span>tag10</span>
-                                    </span>
-                                    <span class="label label-info question-tag" onclick="selectTag('tag11')">
-                                         <span class="glyphicon glyphicon-tags"></span>
-                                         <span>tag11</span>
-                                    </span>
-                                    <span class="label label-info question-tag" onclick="selectTag('tag12')">
-                                        <span class="glyphicon glyphicon-tags"></span>
-                                        <span>tag12</span>
-                                    </span>
-                                </div>
+
                             </div>
 
                         </div>

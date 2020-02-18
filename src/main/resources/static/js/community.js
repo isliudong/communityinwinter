@@ -126,7 +126,8 @@ function collapseComments(e) {
 }
 
 //发布问题选择问题标签
-function selectTag(value) {
+function selectTag(e) {
+    let value = e.getAttribute("data-tagName");
     let previous = $("#tag").val();
     if (previous.split(',').indexOf(value) == -1) {
         if (previous) {

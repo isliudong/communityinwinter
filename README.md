@@ -27,11 +27,10 @@ mybatis是另一种持久方案的实现
 MyBatis可以进行更为细致的SQL优化，可以减少查询字段。
 MyBatis容易掌握，而Hibernate门槛较高。
 
-加强for循环
- for(Teacher t: list){    
-            System.out.println(t.getName());    
-        }  
-        
+Java8重要特性使用：
+Lambda表达式也可称为闭包
+[Java8Stream处理：项目中多次使用String流处理来处理字符串](https://www.jianshu.com/p/11c925cdba50)
+    
 数据库连接池使用spring默认的HikariCP连接池
 
 flyway migration可以简化多人数据库操作，提高数据库维护能力给后
