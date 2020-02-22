@@ -27,7 +27,7 @@
                         <a href="/publish">提问</a>
                     </li>
                   <li>
-                    <a href="/profile/replies">我的消息<span class="badge">42</span></a>
+                    <a href="/profile/replies">我的消息<span class="badge" th:text="${session.unreadNotificationCount}"></span></a>
                   </li>
                     <li class="dropdown" th:if="${session.user!=null}">
                         <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"

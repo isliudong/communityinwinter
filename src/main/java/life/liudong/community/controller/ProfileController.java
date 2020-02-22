@@ -50,7 +50,6 @@ public class ProfileController {
             model.addAttribute("pagination",pagination);
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","我的回复");
-            model.addAttribute("unreadCount",unreadCount);
         }
 
 
