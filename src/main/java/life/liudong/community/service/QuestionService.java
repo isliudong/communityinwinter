@@ -30,7 +30,7 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO<QuestionDTO> list(Integer page, Integer size) {
         Integer totalPage;
         Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());//简单强转为int，用户不多
         if (totalCount % size == 0) {
@@ -58,15 +58,15 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        PaginationDTO paginationDTO = new PaginationDTO();
-        paginationDTO.setQuestionList(questionDTOList);
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
+        paginationDTO.setData(questionDTOList);
 
         paginationDTO.setPagination(totalPage, page);
 
         return paginationDTO;
     }
 
-    public PaginationDTO list(Long userId, Integer page, Integer size) {
+    public PaginationDTO<QuestionDTO> list(Long userId, Integer page, Integer size) {
         Integer totalPage;
 
         QuestionExample questionExample = new QuestionExample();
@@ -97,8 +97,8 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        PaginationDTO paginationDTO = new PaginationDTO();
-        paginationDTO.setQuestionList(questionDTOList);
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
+        paginationDTO.setData(questionDTOList);
 
 
         paginationDTO.setPagination(totalPage, page);

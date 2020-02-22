@@ -58,6 +58,10 @@ localstorage网站本地持久存储数据
 
 快速匿名转显,抽取变量：ctrl+alt+v
 
+快速抽取方法：ctrl+alt+m
+
+抽取成方法参数：ctrl+alt+p
+
 参数查看：ctrl+p
 
 移除无用依赖ctrl+alt+o
