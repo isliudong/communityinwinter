@@ -58,6 +58,7 @@ public class NotificationService {
         //List<Question> questionList=questionMapper.listByUserId(userId,offset,size);
         NotificationExample example = new NotificationExample();
         example.createCriteria().andReceiverEqualTo(userId);
+        example.setOrderByClause("gmt_create desc");
         List<Notification> notifications = notificationMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
 
         List<NotificationDTO> notificationDTOS = new ArrayList<>();
