@@ -11,6 +11,10 @@
     <script src="/js/moment.js"></script>
     <script src="/js/community.js"> type = "application/javascript"</script>
 
+    <link rel="stylesheet" href="/editormd/css/editormd.preview.css" />
+    <script src="/editormd/editormd.js"></script>
+    <script src="/editormd/lib/marked.min.js"></script>
+    <script src="/editormd/lib/prettify.min.js"></script>
 
 </head>
 <body>
@@ -30,7 +34,18 @@
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                 <!--内容-->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view" >
+                    <textarea style="display:none;" th:text="${question.description}"></textarea>
+                </div>
+                <script type="text/javascript">
+                    $(function() {
+                        editormd.markdownToHTML("question-view", {
+                            // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+                            // htmlDecode : true,  // Enable / disable HTML tag encode.
+                            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+                        });
+                    });
+                </script>
 
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!--标签-->

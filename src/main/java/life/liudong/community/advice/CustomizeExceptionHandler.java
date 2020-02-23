@@ -3,7 +3,7 @@ package life.liudong.community.advice;
 import com.alibaba.fastjson.JSON;
 import life.liudong.community.dto.ResultDTO;
 import life.liudong.community.exception.CustomizeErrorCode;
-import life.liudong.community.exception.CustormizeException;
+import life.liudong.community.exception.CustomizeException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,9 +27,9 @@ public class CustomizeExceptionHandler {
         if (contentType.equals("application/json")){
             ResultDTO resultDTO;
             //请求接口错误返回json
-            if (ex instanceof CustormizeException) {
+            if (ex instanceof CustomizeException) {
                 //已知异常，返回异常详情
-                resultDTO= (ResultDTO) ResultDTO.errorOf((CustormizeException) ex);
+                resultDTO= (ResultDTO) ResultDTO.errorOf((CustomizeException) ex);
             }
             else {
                 //未知异常，统一返回系统错误
@@ -52,7 +52,7 @@ public class CustomizeExceptionHandler {
         }
         else {
             //非接口错误跳转页面
-            if (ex instanceof CustormizeException) {
+            if (ex instanceof CustomizeException) {
                 model.addAttribute("message", ex.getMessage());
             } else {
                 model.addAttribute("message", CustomizeErrorCode.SYS_ERROR.getMessage());

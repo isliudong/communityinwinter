@@ -5,7 +5,7 @@ import life.liudong.community.enums.CommentTypeEnum;
 import life.liudong.community.enums.NotificationStatusEnum;
 import life.liudong.community.enums.NotificationTypeEnum;
 import life.liudong.community.exception.CustomizeErrorCode;
-import life.liudong.community.exception.CustormizeException;
+import life.liudong.community.exception.CustomizeException;
 import life.liudong.community.mapper.*;
 import life.liudong.community.model.*;
 import org.springframework.beans.BeanUtils;
@@ -39,11 +39,11 @@ public class CommentService {
     @Transactional//开启事务
     public void insert(Comment comment, User commentator) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
-            throw new CustormizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
+            throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
 
         if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
-            throw new CustormizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
+            throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
         }
 
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
@@ -59,13 +59,13 @@ public class CommentService {
                 //添加通知
                 Question question = questionMapper.selectByPrimaryKey(dbComment.getParentId());
                 if (question == null) {
-                    throw new CustormizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+                    throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
                 }
                 createNotification(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
 
 
             } else {
-                throw new CustormizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
+                throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
 
         } else {
@@ -78,7 +78,7 @@ public class CommentService {
                 //创建通知
                 createNotification(comment, question.getCreator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_QUESTION, question.getId());
             } else {
-                throw new CustormizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
 
         }

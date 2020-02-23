@@ -5,13 +5,12 @@ import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.enums.NotificationStatusEnum;
 import life.liudong.community.enums.NotificationTypeEnum;
 import life.liudong.community.exception.CustomizeErrorCode;
-import life.liudong.community.exception.CustormizeException;
+import life.liudong.community.exception.CustomizeException;
 import life.liudong.community.mapper.NotificationMapper;
 import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.Notification;
 import life.liudong.community.model.NotificationExample;
 import life.liudong.community.model.User;
-import life.liudong.community.model.UserExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @program: community
@@ -99,9 +95,9 @@ public class NotificationService {
     public NotificationDTO read(Long id, User user) {
         Notification notification = notificationMapper.selectByPrimaryKey(id);
         if (notification==null){
-            throw new CustormizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
+            throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
         }if (!notification.getReceiver().equals(user.getId())){
-            throw new CustormizeException(CustomizeErrorCode.READ_FAIL);
+            throw new CustomizeException(CustomizeErrorCode.READ_FAIL);
         }
         //标记已读
         notification.setStatus(NotificationStatusEnum.READ.getStatus());

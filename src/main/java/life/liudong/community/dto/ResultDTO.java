@@ -1,10 +1,8 @@
 package life.liudong.community.dto;
 
 import life.liudong.community.exception.CustomizeErrorCode;
-import life.liudong.community.exception.CustormizeException;
+import life.liudong.community.exception.CustomizeException;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class ResultDTO<T> {
@@ -38,7 +36,7 @@ public class ResultDTO<T> {
         return resultDTO;
     }
 
-    public static ResultDTO errorOf(CustormizeException ex) {
+    public static ResultDTO errorOf(CustomizeException ex) {
          return errorOf(ex.getCode(),ex.getMessage());
     }
 }

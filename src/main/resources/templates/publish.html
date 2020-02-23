@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="/css/community.css">
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js"> type = "application/javascript"</script>
-    <script src="js/community.js"></script>
+    <script src="/js/community.js"></script>
+    <script src="/editormd/editormd.min.js"></script>
+    <link rel="stylesheet" href="/editormd/css/editormd.css" />
 
 
 </head>
@@ -27,11 +29,21 @@
                     <input type="text" autocomplete="off" class="form-control" th:value="${title}" id="title"
                            name="title" placeholder="标题...">
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="question-editor">
                     <label for="description">问题补充(参照右侧提示):</label>
-                    <textarea class="form-control" th:text="${description}" name="description" id="description"
-                              cols="30" rows="10"></textarea>
+                    <textarea class="form-control" style="display:none;" th:text="${description}" name="description" id="description"
+                              cols="30" rows="10" ></textarea>
                 </div>
+                <script type="text/javascript">
+                    $(function() {
+                        var editor = editormd("question-editor", {
+                            width  : "100%",
+                            height : 700,
+                            placeholder : "请输入问题描述...",
+                            path   : "/editormd/lib/"
+                        });
+                    });
+                </script>
                 <div class="form-group">
                     <label for="tag">标签:</label>
                     <input type="text" autocomplete="off" class="form-control" th:value="${tag}" id="tag" name="tag"
@@ -49,7 +61,7 @@
 
                             <!-- Tab panes -->
                             <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane" th:id="${selectTag.categoryName}" th:each="selectTag,selectTagState:${tags}" th:class="${selectTagState.first? 'active':''}">
+                                <div role="tabpanel" class="tab-pane " th:id="${selectTag.categoryName}" th:each="selectTag,selectTagState:${tags}" th:classappend="${selectTagState.first? 'active':''}">
                                     <span class="label label-info question-tag" onclick="selectTag(this)" th:data-tagName="${tagName}" th:each="tagName:${selectTag.tag}">
                                          <span class="glyphicon glyphicon-tags" th:text="${' '+tagName}"></span>
 
