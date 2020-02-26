@@ -47,7 +47,7 @@ public class AuthorizeController {
 
         String accessToken=githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser=githubProvider.getUser(accessToken);
-        System.out.println(githubUser.getName());
+        System.out.println("git用户："+githubUser.getName()+"登录");
         if(githubUser!=null)
         {
 

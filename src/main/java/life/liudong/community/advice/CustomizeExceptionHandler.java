@@ -24,16 +24,15 @@ public class CustomizeExceptionHandler {
         //HttpStatus status = getStatus(request);
 
         String contentType = request.getContentType();
-        if (contentType.equals("application/json")){
+        if (contentType.equals("application/json")) {
             ResultDTO resultDTO;
             //请求接口错误返回json
             if (ex instanceof CustomizeException) {
                 //已知异常，返回异常详情
-                resultDTO= (ResultDTO) ResultDTO.errorOf((CustomizeException) ex);
-            }
-            else {
+                resultDTO = (ResultDTO) ResultDTO.errorOf((CustomizeException) ex);
+            } else {
                 //未知异常，统一返回系统错误
-                resultDTO= (ResultDTO) ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
+                resultDTO = (ResultDTO) ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
             }
 
             try {
@@ -41,7 +40,7 @@ public class CustomizeExceptionHandler {
                 response.setContentType("application/json");
                 response.setStatus(200);
                 response.setCharacterEncoding("utf-8");
-                PrintWriter writer=response.getWriter();
+                PrintWriter writer = response.getWriter();
                 writer.write(JSON.toJSONString(resultDTO));
                 writer.close();
             } catch (IOException ioe) {
@@ -49,8 +48,7 @@ public class CustomizeExceptionHandler {
             }
             return null;//不反回页面
 
-        }
-        else {
+        } else {
             //非接口错误跳转页面
             if (ex instanceof CustomizeException) {
                 model.addAttribute("message", ex.getMessage());
@@ -60,9 +58,6 @@ public class CustomizeExceptionHandler {
             //返回视图
             return new ModelAndView("error");
         }
-
-
-
 
     }
 
