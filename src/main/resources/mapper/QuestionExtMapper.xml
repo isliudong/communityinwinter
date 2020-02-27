@@ -32,4 +32,26 @@
     select * from QUESTION
     where id != #{id} and tag regexp #{tag}
   </select>
+
+    <!--搜索查询问题数量语句-->
+    <select id="countBySearch" parameterType="life.liudong.community.dto.QuestionQueryDTO" resultType="java.lang.Integer">
+    select count(*) from QUESTION
+    <where>
+        <if test="search !=null">
+            and title regexp #{search}
+        </if>
+    </where>
+  </select>
+
+
+    <!--搜索问题-->
+    <select id="selectBySearch" parameterType="life.liudong.community.dto.QuestionQueryDTO" resultMap="BaseResultMap">
+    select * from QUESTION
+    <where>
+        <if test="search !=null">
+            and title regexp #{search}
+        </if>
+    </where>
+    order by gmt_create desc limit #{page},#{size}
+  </select>
 </mapper>

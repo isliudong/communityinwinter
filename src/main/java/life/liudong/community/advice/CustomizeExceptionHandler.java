@@ -24,7 +24,7 @@ public class CustomizeExceptionHandler {
         //HttpStatus status = getStatus(request);
 
         String contentType = request.getContentType();
-        if (contentType.equals("application/json")) {
+        if (contentType!=null&&contentType.equals("application/json")) {
             ResultDTO resultDTO;
             //请求接口错误返回json
             if (ex instanceof CustomizeException) {

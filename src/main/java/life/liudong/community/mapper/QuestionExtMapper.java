@@ -1,5 +1,6 @@
 package life.liudong.community.mapper;
 
+import life.liudong.community.dto.QuestionQueryDTO;
 import life.liudong.community.model.Question;
 
 import java.util.List;
@@ -11,4 +12,8 @@ public interface QuestionExtMapper {
     int incCommentCount(Question record);
     //查询相关问题
     List<Question> selectRelated(Question question);
+
+    Integer countBySearch(QuestionQueryDTO questionQueryDTO);
+
+    List<Question> selectBySearch(QuestionQueryDTO questionQueryDTO);
 }

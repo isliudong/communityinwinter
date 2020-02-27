@@ -2,6 +2,7 @@ package life.liudong.community.service;
 
 import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
+import life.liudong.community.dto.QuestionQueryDTO;
 import life.liudong.community.exception.CustomizeErrorCode;
 import life.liudong.community.exception.CustomizeException;
 import life.liudong.community.mapper.QuestionExtMapper;
@@ -30,9 +31,22 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public PaginationDTO<QuestionDTO> list(Integer page, Integer size) {
+    public PaginationDTO<QuestionDTO> list(String search, Integer page, Integer size) {
+
+        //标签为空
+        if (StringUtils.isNotBlank(search)) {
+            String[] tags = StringUtils.split(search, " ");
+            search=Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+
+
+
+
+
         Integer totalPage;
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());//简单强转为int，用户不多
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);//简单强转为int，用户不多
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
         } else {
@@ -46,7 +60,9 @@ public class QuestionService {
 
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_create desc");//添加倒叙排列
-        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
+        questionQueryDTO.setPage(offset);
+        questionQueryDTO.setSize(size);
+        List<Question> questionList = questionExtMapper.selectBySearch(questionQueryDTO);
 
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();

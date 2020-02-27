@@ -76,6 +76,8 @@ localstorage网站本地持久存储数据
 
 当前网页搜索ctrl+f
 
+idea多行编辑 alt+鼠标左键
+
 idea参数配置Shift+Ctrl+Alt+/
 [其他详见：](https://blog.csdn.net/zhuwinmin/article/details/72841061)
 ##问题
@@ -96,3 +98,5 @@ h2创建用户create user sa { password '123' } admin
 前端input，用value、text用text
 
 mybatis _转换驼峰规则(配置mybatis.configuration.map-underscore-to-camel-case=true即可)
+
+数据库查询count（1）和count（*）他们速度有待研究

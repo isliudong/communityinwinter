@@ -3,11 +3,11 @@
 <head>
     <title>社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/community.css">
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/bootstrap.min.js"> type="application/javascript"</script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"> type="application/javascript"</script>
 
 </head>
 <script type="application/javascript">
@@ -51,22 +51,22 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a th:href="@{/(page=1)}" aria-label="Previous" th:if="${pagination.showFirstPage}">
+                        <a th:href="@{/(page=1,search=${search})}" aria-label="Previous" th:if="${pagination.showFirstPage}">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
-                        <a th:href="@{/(page=(${pagination.page}-1))}" aria-label="Previous" th:if="${pagination.showPrevious}">
+                        <a th:href="@{/(page=(${pagination.page}-1),search=${search})}" aria-label="Previous" th:if="${pagination.showPrevious}">
                             <span aria-hidden="true">&lsaquo;</span>
                         </a>
                     </li>
                     <li th:each="page:${pagination.pages}" th:class="${pagination.page==page}?'active':''">
-                        <a th:href="@{/(page=${page})}" th:text="${page}" ></a>
+                        <a th:href="@{/(page=${page},search=${search})}" th:text="${page}" ></a>
                     </li>
 
                     <li>
-                        <a th:href="@{/(page=(${pagination.page}+1))}" aria-label="Next" th:if="${pagination.showNext}">
+                        <a th:href="@{/(page=(${pagination.page}+1),search=${search})}" aria-label="Next" th:if="${pagination.showNext}">
                             <span aria-hidden="true">&rsaquo;</span>
                         </a>
-                        <a th:href="@{/(page=${pagination.totalPage})}" aria-label="Next" th:if="${pagination.showEndPage}">
+                        <a th:href="@{/(page=${pagination.totalPage},search=${search})}" aria-label="Next" th:if="${pagination.showEndPage}">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
