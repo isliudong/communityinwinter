@@ -49,7 +49,7 @@ public class FileController {
         //虚拟存储服务器
         String picDir = imgSever;
         //图片存储全路径
-        String outputPath = picDir + '\\' + saveName;
+        String outputPath = picDir + '/' + saveName;
 
         try {
             File saveFile = new File(outputPath);
