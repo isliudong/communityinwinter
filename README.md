@@ -1,5 +1,24 @@
 ##西柚社区
 2020寒冬哥成长计划
+
+## 部署
+##### 部署依赖
+- git
+- jdk
+- maven
+- mysql
+
+#### 步骤
+- 升级服务器镜像依赖：yum update
+- 安装git yum install git
+- 安装 maven
+- 创建项目目录 mkdir App
+- 进入App目录 cd App
+- git clone +链接
+- 进入项目目录并mvn clean compile package 编译
+- cp src/main/resources/application.properties src/main/resources/application-production.properties
+- vim src/main/resources/application-production.properties
+-  java -jar -Dspring.profiles.active=production target/community-0.0.1-SNAPSHOT.jar
 ##资料
 [文档](https://spring.io/guides)
 
@@ -45,6 +64,7 @@ maven启动mybatis generator 指令：mvn -Dmybatis.generator.overwrite=true myb
 
 localstorage网站本地持久存储数据
 
+使用本地终端登录服务器：ssh root@+ip
 ##快捷方式
 显示文件所在位置
 

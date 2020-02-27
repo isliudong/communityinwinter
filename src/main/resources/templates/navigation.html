@@ -43,7 +43,9 @@
                         </ul>
                     </li>
                     <li th:unless="${session.user!=null}">
-                        <a href="https://github.com/login/oauth/authorize?client_id=40cca80d10082a99e683&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a>
+
+                        <!--<a href="https://github.com/login/oauth/authorize?client_id=40cca80d10082a99e683&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a>-->
+                        <a th:href="@{https://github.com/login/oauth/authorize(client_id='40cca80d10082a99e683',redirect_uri=${#httpServletRequest.getRequestURL()+'callback'},scope='user',state=1)}">登录</a>
                     </li>
                     <li>
                         <a href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101853486&redirect_uri=http://community.liudong.life/callback&state=1">qq登录</a>
