@@ -18,7 +18,9 @@
 - 进入项目目录并mvn clean compile package 编译
 - cp src/main/resources/application.properties src/main/resources/application-production.properties
 - vim src/main/resources/application-production.properties
--  java -jar -Dspring.profiles.active=production target/community-0.0.1-SNAPSHOT.jar
+- java -jar -Dspring.profiles.active=production target/community-0.0.1-SNAPSHOT.jar
+- ps -aux |grep java
+-ctrl+r 搜索历史命令
 ##资料
 [文档](https://spring.io/guides)
 
