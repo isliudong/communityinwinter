@@ -5,6 +5,7 @@ import life.liudong.community.dto.GithubUser;
 import life.liudong.community.model.User;
 import life.liudong.community.provider.GithubProvider;
 import life.liudong.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
@@ -62,6 +64,7 @@ public class AuthorizeController {
             response.addCookie(new Cookie("token",token));
             return "redirect:";//转发至主页，可以去掉链接后缀信息
         }else {
+            log.error("callback get github error, {}",githubUser);
             return "redirect:";
             //登录失败
         }
