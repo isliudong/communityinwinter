@@ -1,5 +1,13 @@
 ##西柚社区
 2020寒冬哥成长计划
+mysql:spring.datasource.url=jdbc:mysql://localhost:3306/community?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true 
+      spring.datasource.username=root
+      spring.datasource.password=root
+      spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+h2:spring.datasource.url=jdbc:h2:~/h2db
+   spring.datasource.username=root
+   spring.datasource.password=root
+   spring.datasource.driver-class-name=org.h2.Driver
 
 ## 部署
 ##### 部署依赖
