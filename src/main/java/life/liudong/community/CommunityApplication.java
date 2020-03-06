@@ -4,12 +4,14 @@ import org.h2.tools.Server;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.sql.SQLException;
 
 
 @SpringBootApplication
 @MapperScan(basePackages = "life.liudong.community.mapper")
+@EnableScheduling
 public class CommunityApplication {
 
     private static void startH2Server() {
