@@ -56,17 +56,16 @@ public class HotTagTasks {
             offset += limit;
         }
 
-        //将结果放入缓存
-        hotTagCache.setTags(hotTags);
 
         //输出标签权重
-        hotTagCache.getTags().forEach(
+        hotTags.forEach(
                 (k, v) -> {
                     System.out.print(k + ": ");
                     System.out.print(v);
                     System.out.println();
                 }
         );
+        hotTagCache.updateTags(hotTags);
 
         log.info("The time stop now {}", new Date());
     }

@@ -1,10 +1,10 @@
 package life.liudong.community.cache;
 
+import life.liudong.community.dto.HotTagDTO;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @program: community
@@ -17,5 +17,42 @@ import java.util.Map;
 public class HotTagCache {
 
     private  Map<String,Integer> tags=new HashMap<>();
+    private List<String> hots=new ArrayList<>();
+
+    public void updateTags(Map<String,Integer> tags){
+        //清空历史热点
+        hots.clear();
+
+        //使用优先队列遍历标签权重获取top 3标签
+        int max=3;
+        PriorityQueue<HotTagDTO> priorityQueue=new PriorityQueue<>(max);
+
+        tags.forEach((name,priority)->{
+            HotTagDTO hotTagDTO = new HotTagDTO();
+            hotTagDTO.setName(name);
+            hotTagDTO.setPriority(priority);
+            if (priorityQueue.size()<3){
+                priorityQueue.add(hotTagDTO);
+            }else {
+                HotTagDTO minHot = priorityQueue.peek();
+                if (hotTagDTO.compareTo(minHot)>0){
+                    priorityQueue.poll();
+                    priorityQueue.add(hotTagDTO);
+                }
+            }
+        });
+
+        //新热门标签放入hots并从大到小排序
+        HotTagDTO poll = priorityQueue.poll();
+        while (poll!=null){
+            hots.add(0,poll.getName());//将后出队列的标签（最热）放在第一个
+            poll=priorityQueue.poll();
+
+        }
+
+        System.out.println(hots);
+
+
+    }
 
 }
