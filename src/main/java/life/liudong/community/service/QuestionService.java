@@ -31,12 +31,15 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public PaginationDTO<QuestionDTO> list(String search, Integer page, Integer size) {
+    public PaginationDTO<QuestionDTO> list(String search, String tag, Integer page, Integer size) {
 
         //标签为空
         if (StringUtils.isNotBlank(search)) {
             String[] tags = StringUtils.split(search, " ");
             search=Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+        if (StringUtils.isNotBlank(tag)){
+            //2020/3/8未完待续
         }
 
 

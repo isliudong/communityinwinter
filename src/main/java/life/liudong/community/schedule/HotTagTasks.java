@@ -55,18 +55,7 @@ public class HotTagTasks {
             }
             offset += limit;
         }
-
-
-        //输出标签权重
-        hotTags.forEach(
-                (k, v) -> {
-                    System.out.print(k + ": ");
-                    System.out.print(v);
-                    System.out.println();
-                }
-        );
         hotTagCache.updateTags(hotTags);
-
-        log.info("The time stop now {}", new Date());
+        log.info("刷新热点时间：{} ", new Date());
     }
 }
