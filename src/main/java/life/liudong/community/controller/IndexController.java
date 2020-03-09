@@ -37,6 +37,7 @@ public class IndexController {
         model.addAttribute("search",search);
         model.addAttribute("clientId",clientId);
         model.addAttribute("topTags",topTags);
+        model.addAttribute("tag",tag);
 
         return "index";
     }

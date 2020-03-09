@@ -38,16 +38,11 @@ public class QuestionService {
             String[] tags = StringUtils.split(search, " ");
             search=Arrays.stream(tags).collect(Collectors.joining("|"));
         }
-        if (StringUtils.isNotBlank(tag)){
-            //2020/3/8未完待续
-        }
-
-
-
 
 
         Integer totalPage;
         QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setTag(tag);
         questionQueryDTO.setSearch(search);
         Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);//简单强转为int，用户不多
         if (totalCount % size == 0) {

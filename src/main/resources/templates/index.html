@@ -51,25 +51,25 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a th:href="@{/(page=1,search=${search})}" aria-label="Previous"
+                        <a th:href="@{/(page=1,search=${search},tag=${tag})}" aria-label="Previous"
                            th:if="${pagination.showFirstPage}">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
-                        <a th:href="@{/(page=(${pagination.page}-1),search=${search})}" aria-label="Previous"
+                        <a th:href="@{/(page=(${pagination.page}-1),search=${search},tag=${tag})}" aria-label="Previous"
                            th:if="${pagination.showPrevious}">
                             <span aria-hidden="true">&lsaquo;</span>
                         </a>
                     </li>
                     <li th:each="page:${pagination.pages}" th:class="${pagination.page==page}?'active':''">
-                        <a th:href="@{/(page=${page},search=${search})}" th:text="${page}"></a>
+                        <a th:href="@{/(page=${page},search=${search},tag=${tag})}" th:text="${page}"></a>
                     </li>
 
                     <li>
-                        <a th:href="@{/(page=(${pagination.page}+1),search=${search})}" aria-label="Next"
+                        <a th:href="@{/(page=(${pagination.page}+1),search=${search},tag=${tag})}" aria-label="Next"
                            th:if="${pagination.showNext}">
                             <span aria-hidden="true">&rsaquo;</span>
                         </a>
-                        <a th:href="@{/(page=${pagination.totalPage},search=${search})}" aria-label="Next"
+                        <a th:href="@{/(page=${pagination.totalPage},search=${search},tag=${tag})}" aria-label="Next"
                            th:if="${pagination.showEndPage}">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
@@ -81,7 +81,7 @@
             <h3>热点问题</h3>
             <ul class="question-related">
                 <li th:each="tag:${topTags}">
-                    <a href="/" th:text="${tag}"></a>
+                    <a th:href="@{/(page=1,search=${search},tag=${tag})}" th:text="${tag}"></a>
                 </li>
             </ul>
         </div>

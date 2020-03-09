@@ -24,7 +24,7 @@ public class HotTagCache {
         hots.clear();
 
         //使用优先队列遍历标签权重获取top 3标签
-        int max=5;
+        int max=8;
         PriorityQueue<HotTagDTO> priorityQueue=new PriorityQueue<>(max);
 
         tags.forEach((name,priority)->{
