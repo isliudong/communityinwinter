@@ -29,7 +29,7 @@ public class HotTagTasks {
     private HotTagCache hotTagCache;
 
 
-    @Scheduled(fixedRate = 5000)//时间控制暂定5秒有利于开发
+    @Scheduled(fixedRate = 1000*60*60)//时间控制暂定5秒有利于开发
     //@Scheduled(cron="0 0 1 * * *")
     public void hotTagSchedule() {
         int offset = 0;

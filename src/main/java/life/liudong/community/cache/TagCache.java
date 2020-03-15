@@ -51,7 +51,6 @@ public class TagCache {
 
         List<String> tagList = tagDTOS.stream().flatMap(tag -> tag.getTag().stream()).collect(Collectors.toList());
         String invalid = Arrays.stream(split).filter(t -> !tagList.contains(t)).collect(Collectors.joining(","));
-
         return invalid;
     }
 }

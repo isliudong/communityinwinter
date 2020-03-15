@@ -29,11 +29,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                     String token = cookie.getValue();
 
                     UserExample userExample = new UserExample();
-                    userMapper.selectByExample(userExample);
                     userExample.createCriteria().andTokenEqualTo(token);//加入token参数
                     List<User> users = userMapper.selectByExample(userExample);
-
-
                     if (users.size() != 0) {
 
                         request.getSession().setAttribute("user", users.get(0));
