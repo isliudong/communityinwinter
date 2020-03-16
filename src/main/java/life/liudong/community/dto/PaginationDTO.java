@@ -2,10 +2,11 @@ package life.liudong.community.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 @Data
-public class PaginationDTO<T> {
+public class PaginationDTO<T> implements Serializable {
     private List<T> data;
     private boolean showPrevious;
     private boolean showFirstPage;

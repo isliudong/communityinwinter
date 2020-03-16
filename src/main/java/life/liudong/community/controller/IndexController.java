@@ -1,6 +1,7 @@
 package life.liudong.community.controller;
 
 import life.liudong.community.cache.HotTagCache;
+import life.liudong.community.cache.RedisOP;
 import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
 import life.liudong.community.service.QuestionService;
@@ -11,8 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class IndexController {
@@ -21,6 +22,8 @@ public class IndexController {
     QuestionService questionService;
     @Autowired
     HotTagCache hotTagCache;
+    @Autowired
+    RedisOP<PaginationDTO<QuestionDTO>> redisOP;
     @Value("${github.client.id}")
     String clientId;
     @GetMapping("/")
@@ -31,7 +34,17 @@ public class IndexController {
                         @RequestParam(name="tag",required = false) String tag)
     {
 
-        PaginationDTO<QuestionDTO> pagination=questionService.list(search,tag,page,size);
+        PaginationDTO<QuestionDTO> pagination=null;
+        if (page==1){
+            try {
+                pagination=redisOP.getObject((long) 1314);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }else {pagination=questionService.list(search,tag,page,size);}
+
         List<String> topTags = hotTagCache.getHots();
         model.addAttribute("pagination",pagination);
         model.addAttribute("search",search);

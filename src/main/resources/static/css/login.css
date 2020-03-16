@@ -15,7 +15,6 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    background: #191919;
     text-align: center;
 }
 .login_box h1{
@@ -138,4 +137,14 @@ body{
 .register_box input[type="submit"]:hover{
     background: #2ecc71;
 
+}
+
+.register_url {
+    position: absolute;
+    right: 13px;
+    top: 8px;
+    background: none;
+    border: 0;
+    text-decoration: none;
+    color: #f0f8ff;
 }

@@ -1,5 +1,6 @@
 package life.liudong.community.service;
 
+import life.liudong.community.cache.RedisOP;
 import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
 import life.liudong.community.dto.QuestionQueryDTO;
@@ -17,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,13 +32,15 @@ public class QuestionService {
     private UserMapper userMapper;
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    RedisOP<PaginationDTO<QuestionDTO>> redisOP;
 
     public PaginationDTO<QuestionDTO> list(String search, String tag, Integer page, Integer size) {
 
         //标签为空
         if (StringUtils.isNotBlank(search)) {
             String[] tags = StringUtils.split(search, " ");
-            search=Arrays.stream(tags).collect(Collectors.joining("|"));
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
         }
 
 
@@ -185,7 +189,7 @@ public class QuestionService {
         //将question转化为questionDTO
         List<QuestionDTO> questionDTOS = relatedQuestions.stream().map(q -> {
             QuestionDTO relatedQuestionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(q,relatedQuestionDTO);
+            BeanUtils.copyProperties(q, relatedQuestionDTO);
             return relatedQuestionDTO;
         }).collect(Collectors.toList());
 

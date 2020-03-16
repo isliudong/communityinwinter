@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
@@ -62,12 +63,14 @@ public class LoginController {
         return "login2";
     }
 
-    @PostMapping("/register")
+    @RequestMapping("/register")
     public String register(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "password", required = false) String password,
             @RequestParam(value = "email", required = false) String email
     ){
+        if (name==null)
+            return "register";
 
         User newUser = new User();
         newUser.setToken(UUID.randomUUID().toString());
