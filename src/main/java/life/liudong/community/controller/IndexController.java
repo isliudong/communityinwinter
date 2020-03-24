@@ -35,7 +35,7 @@ public class IndexController {
     {
 
         PaginationDTO<QuestionDTO> pagination=null;
-        if (page==1){
+        if (page==1&&search==null&&tag==null){
             try {
                 pagination=questionService.getPageByIdInRedis(page);
             } catch (IOException e) {
