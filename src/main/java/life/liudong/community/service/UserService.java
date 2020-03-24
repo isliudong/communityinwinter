@@ -21,16 +21,12 @@ public class UserService {
 
         List<User> users = userMapper.selectByExample(userExample);
 
-        if (users.size()==0)
-        {
+        if (users.size() == 0) {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-        }
-        else
-        {
+        } else {
             User dbUser = users.get(0);
-
 
 
             User updateUser = new User();
@@ -43,5 +39,13 @@ public class UserService {
             userMapper.updateByExampleSelective(updateUser, example);
 
         }
+    }
+
+    //可用返回true
+    public boolean nameAvailable(String name) {
+        UserExample example = new UserExample();
+        example.createCriteria().andNameEqualTo(name);
+        List<User> users = userMapper.selectByExample(example);
+        return users.isEmpty();
     }
 }

@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @program: community
@@ -25,6 +26,7 @@ public class TestController {
     RedisTemplate<String, String> redisTemplate;
 
     @GetMapping("/test")
+
     public String htmlTest(Model model,
                            @RequestParam(name = "page",defaultValue = "1") Integer page,
                            @RequestParam(name = "size",defaultValue = "5") Integer size,
@@ -40,5 +42,19 @@ public class TestController {
 
 
         return "index";
+    }
+
+
+
+    @RequestMapping("/ajax")
+    public String ajax(@RequestBody(required = false) String name, HttpServletResponse response){
+        System.out.println(name);
+        System.out.println(response);
+        return "ajaxTest";
+    }
+    @RequestMapping("/1")
+    public String face(){
+
+        return "login";
     }
 }

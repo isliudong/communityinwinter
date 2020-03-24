@@ -1,6 +1,5 @@
 package life.liudong.community.schedule;
 
-import life.liudong.community.cache.RedisOP;
 import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
 import life.liudong.community.service.QuestionService;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 
 /**
  * @program: community
@@ -21,15 +19,14 @@ import java.io.IOException;
 @Slf4j
 public class RedisTask {
     @Autowired
-    RedisOP<PaginationDTO<QuestionDTO>> redisOP;
-    @Autowired
     QuestionService questionService;
 
-    @Scheduled(fixedRate = 5000)
-    public void setFirstPage() throws IOException {
+    @Scheduled(fixedRate = 300000)
+    public void setFirstPage()  {
         PaginationDTO<QuestionDTO> paginationDTO;
         paginationDTO=questionService.list(null, null, 1, 5);
-        redisOP.setObject((long) 1314, paginationDTO);
-        log.info("redis更新成功！");
+        //将首页写入缓存
+        questionService.setPageInRedis(1, paginationDTO);
+
     }
 }

@@ -1,0 +1,25 @@
+.box {
+    text-align: center;
+    width: 20%;
+    height: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    position: absolute;
+    color: #1d3e81;
+}
+
+.input {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #007bff;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: #1F4661;
+    border-radius: 24px;
+    transition: 0.25s;
+}

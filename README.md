@@ -75,6 +75,8 @@ maven启动mybatis generator 指令：mvn -Dmybatis.generator.overwrite=true myb
 localstorage网站本地持久存储数据
 
 使用本地终端登录服务器：ssh root@+ip
+
+${pageContext.request.contextPath}:js获取项目路径
 ##快捷方式
 显示文件所在位置
 

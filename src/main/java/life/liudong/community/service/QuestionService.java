@@ -12,6 +12,7 @@ import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.Question;
 import life.liudong.community.model.QuestionExample;
 import life.liudong.community.model.User;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 public class QuestionService {
     @Autowired
@@ -194,5 +195,20 @@ public class QuestionService {
         }).collect(Collectors.toList());
 
         return questionDTOS;
+    }
+
+    //将paginationDTO写入redis缓存
+    public void setPageInRedis(long id, PaginationDTO<QuestionDTO> paginationDTO) {
+        try {
+            redisOP.setObject(id, paginationDTO);
+            log.info("redis写入paginationDTO成功！");
+        } catch (IOException e) {
+           log.error("redis写入paginationDTO失败！详情:"+e.getMessage());
+        }
+    }
+
+    //在redis缓存获取paginationDTO
+    public PaginationDTO<QuestionDTO> getPageByIdInRedis(long id) throws IOException, ClassNotFoundException {
+        return redisOP.getObject(id);
     }
 }

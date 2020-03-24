@@ -6,10 +6,7 @@ import life.liudong.community.model.UserExample;
 import life.liudong.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +30,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
-        return "login2";
+        return "login";
     }
 
     @PostMapping("/goLogin")
@@ -60,27 +57,6 @@ public class LoginController {
             System.out.println("无此用户");
             return "register";
         }
-        return "login2";
-    }
-
-    @RequestMapping("/register")
-    public String register(
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "password", required = false) String password,
-            @RequestParam(value = "email", required = false) String email
-    ){
-        if (name==null)
-            return "register";
-
-        User newUser = new User();
-        newUser.setToken(UUID.randomUUID().toString());
-        newUser.setPassword(password);
-        newUser.setMail(email);
-        newUser.setName(name);
-        newUser.setAvatarUrl("/img/默认头像.png");
-        newUser.setAccountId("1000");//账号生成待完善
-        userService.createOrUpdeate(newUser);
-
-        return "redirect:/login";
+        return "login";
     }
 }
