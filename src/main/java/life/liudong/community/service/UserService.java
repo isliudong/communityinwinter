@@ -48,4 +48,8 @@ public class UserService {
         List<User> users = userMapper.selectByExample(example);
         return users.isEmpty();
     }
+
+    public long getUserCount() {
+        return userMapper.countByExample(new UserExample());
+    }
 }

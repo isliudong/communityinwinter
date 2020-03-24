@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 /**
@@ -37,22 +36,23 @@ public class RegisterController {
         newUser.setMail(email);
         newUser.setName(name);
         newUser.setAvatarUrl("/img/默认头像.png");
-        newUser.setAccountId("1000");//账号生成待完善
+        long accountId=userService.getUserCount()+1000;
+        newUser.setAccountId(String.valueOf(accountId));
         userService.createOrUpdeate(newUser);
 
         return "redirect:/login";
     }
 
     @ResponseBody
-    @PostMapping("/verify")
+    @PostMapping("/verify")//未验证邮箱重复
     public ResultDTO verify(@RequestBody JSONObject jsonObject) {
 
-        System.out.println(jsonObject.getString("username"));
-        if (userService.nameAvailable(jsonObject.getString("username"))){
+        String username = jsonObject.getString("username");
+        if (userService.nameAvailable(username)&& !username.equals("")){
             return ResultDTO.okOf(200,"昵称合法");
         }
 
-        return ResultDTO.okOf(200,"昵称重复");
+        return ResultDTO.okOf(200,"昵称重复或者不合法");
     }
 
 }
