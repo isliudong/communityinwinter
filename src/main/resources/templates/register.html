@@ -16,7 +16,8 @@
     <input type="password" name="password" placeholder="密码">
     <input type="password" name="password2" placeholder="密码" onblur="verifyPwd()">
     <span  id='pwdMsg' class="display"></span>
-    <input type="email" name="email" placeholder="邮箱">
+    <input type="email" name="email" placeholder="邮箱" onblur="getCode()">
+    <input type="text" name="emailCode" oninput = "value=value.replace(/[^\d]/g,'')" placeholder="验证码">
     <input type="submit" name="" value="注册">
 </form>
 </body>

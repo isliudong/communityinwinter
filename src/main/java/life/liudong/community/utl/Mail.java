@@ -56,7 +56,7 @@ public class Mail {
 
             // 最终发送邮件
             Transport.send(message);
-            log.info("=====邮件已经发送=====");
+            log.info("=====邮件已经发送到:"+receiver+"=====");
             return true;
 
         } catch (MessagingException e) {

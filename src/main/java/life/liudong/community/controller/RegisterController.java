@@ -25,27 +25,30 @@ public class RegisterController {
     @Autowired
     Mail mail;
 
+    int emailCode=1234;
+
     //注册信息获取
     @RequestMapping("/register")
     public String register(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "password", required = false) String password,
-            @RequestParam(value = "email", required = false) String email
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "emailCode",required = false) String emailCode
     ){
-        if (name==null) {
-            return "register";
+        if (emailCode!=null&&emailCode.equals(String.valueOf(this.emailCode))){
+            User newUser = new User();
+            newUser.setToken(UUID.randomUUID().toString());
+            newUser.setPassword(password);
+            newUser.setMail(email);
+            newUser.setName(name);
+            newUser.setAvatarUrl("/img/默认头像.png");
+            long accountId=userService.getUserCount()+1000;
+            newUser.setAccountId(String.valueOf(accountId));
+            userService.createOrUpdeate(newUser);
+            return "redirect:/login";
         }
-        User newUser = new User();
-        newUser.setToken(UUID.randomUUID().toString());
-        newUser.setPassword(password);
-        newUser.setMail(email);
-        newUser.setName(name);
-        newUser.setAvatarUrl("/img/默认头像.png");
-        long accountId=userService.getUserCount()+1000;
-        newUser.setAccountId(String.valueOf(accountId));
-        userService.createOrUpdeate(newUser);
 
-        return "redirect:/login";
+        return "register";
     }
 
     //注册信息验证
@@ -65,7 +68,7 @@ public class RegisterController {
     @PostMapping("/getMailCode")
     @ResponseBody
     public ResultDTO sendMailCode(@RequestBody JSONObject jsonObject) throws MessagingException {
-        int code=1234;
+        int code=emailCode;
         String userMail = jsonObject.getString("userMail");
         String content="验证码为："+code;
         mail.setContent("西柚社区","");

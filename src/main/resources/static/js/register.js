@@ -17,6 +17,20 @@ function r(){
         }
     })
 }
+function getCode(){
+    $.ajax({
+        url : '/getMailCode',
+        contentType: "application/json",
+        dataType:"json",
+        type : 'POST',
+        data : JSON.stringify({
+            'userMail' : $("input[name='email']").val()
+        }),
+        success: function(data){
+            console.log(data);
+        }
+    })
+}
 function verifyPwd() {
     let pwd = $("input[name='password']").val();
     let pwd2 = $("input[name='password2']").val();
