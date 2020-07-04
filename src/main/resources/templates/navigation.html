@@ -20,7 +20,7 @@
                 <ul class="nav navbar-nav navbar-right">
 
                     <li th:if="${session.user!=null}">
-                        <a href="/publish">提问</a>
+                        <a href="/publish">发布</a>
                     </li>
                   <li th:if="${session.user!=null}">
                     <a href="/profile/replies">我的消息<span class="badge" th:text="${session.unreadNotificationCount}"></span></a>

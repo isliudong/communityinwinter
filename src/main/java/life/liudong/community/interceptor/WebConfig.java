@@ -14,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
+        //注册session拦截器
         registry.addInterceptor(sessionInterceptor).addPathPatterns("/**");
 
     }

@@ -55,6 +55,6 @@ public class TestController {
     @RequestMapping("/1")
     public String face(){
 
-        return "404";
+        return "4";
     }
 }

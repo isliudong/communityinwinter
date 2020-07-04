@@ -23,7 +23,7 @@ public class HotTagCache {
         //清空历史热点
         hots.clear();
 
-        //使用优先队列遍历标签权重获取top 3标签
+        //使用优先队列遍历标签权重获取top 3标签（大顶堆）
         int max=8;
         PriorityQueue<HotTagDTO> priorityQueue=new PriorityQueue<>(max);
 

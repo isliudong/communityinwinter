@@ -13,7 +13,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-
+//定义session拦截器
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
@@ -32,7 +32,6 @@ public class SessionInterceptor implements HandlerInterceptor {
                     userExample.createCriteria().andTokenEqualTo(token);//加入token参数
                     List<User> users = userMapper.selectByExample(userExample);
                     if (users.size() != 0) {
-
                         request.getSession().setAttribute("user", users.get(0));
                         Long unreadCount = notificationService.unreadCount(users.get(0).getId());
                         request.getSession().setAttribute("unreadNotificationCount",unreadCount);

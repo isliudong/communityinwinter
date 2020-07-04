@@ -28,7 +28,7 @@ public class CommunityApplication {
     }
 
     public static void main(String[] args) {
-        startH2Server();
+        //startH2Server();
         SpringApplication.run(CommunityApplication.class, args);
     }
 
