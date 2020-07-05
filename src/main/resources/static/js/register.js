@@ -27,6 +27,7 @@ function getCode(){
             'userMail' : $("input[name='email']").val()
         }),
         success: function(data){
+            alert("验证码已发送成功");
             console.log(data);
         }
     })
