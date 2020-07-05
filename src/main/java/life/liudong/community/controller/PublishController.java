@@ -4,6 +4,7 @@ import life.liudong.community.cache.TagCache;
 import life.liudong.community.dto.QuestionDTO;
 import life.liudong.community.model.Question;
 import life.liudong.community.model.User;
+import life.liudong.community.schedule.RedisTask;
 import life.liudong.community.service.QuestionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private RedisTask redisTask;
     @GetMapping("/publish")
     public String publish(Model model){
         model.addAttribute("tags",TagCache.get());
@@ -72,6 +75,7 @@ public class PublishController {
         question.setTitle(title);
         question.setId(id);
         questionService.createOrUpdate(question);
+        redisTask.setFirstPage();
         //ready to be beater
 
         return "redirect:";
