@@ -72,7 +72,7 @@ public class RegisterController {
         String userMail = jsonObject.getString("userMail");
         String content="验证码为："+code;
         mail.setContent("西柚社区","");
-        mail.send("2351036454@qq.com",userMail,"西柚社区注册验证",content,"D:\\wintervacation-2020\\community\\src\\main\\resources\\static\\img\\心情童年.jpg");
+        mail.send("2351036454@qq.com",userMail,"西柚社区注册验证",content,"/root/App/communityinwinter/src/main/resources/static/img/心情童年.jpg");
         return ResultDTO.okOf(200,"send mail success");
     }
 
