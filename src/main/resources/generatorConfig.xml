@@ -11,6 +11,7 @@
                         connectionURL="jdbc:h2:~/h2db;MV_STORE=false"
                         userId="root"
                         password="root">
+
         </jdbcConnection>
 
         <javaTypeResolver>

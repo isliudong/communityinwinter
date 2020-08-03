@@ -27,6 +27,8 @@ public class IndexController {
     RedisOP<PaginationDTO<QuestionDTO>> redisOP;
     @Value("${github.client.id}")
     String clientId;
+    @Value("${github.redirect.url}")
+    String redirect_url;
     @GetMapping("/")
     public String index(Model model,
                         @RequestParam(name = "page",defaultValue = "1") Integer page,
@@ -50,6 +52,7 @@ public class IndexController {
         model.addAttribute("pagination",pagination);
         model.addAttribute("search",search);
         model.addAttribute("clientId",clientId);
+        model.addAttribute("redirect_url",redirect_url);
         model.addAttribute("topTags",topTags);
         model.addAttribute("tag",tag);
 

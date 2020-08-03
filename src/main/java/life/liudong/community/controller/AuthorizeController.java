@@ -32,8 +32,8 @@ public class AuthorizeController {
     @Value("${github.client.secret}")
     private String cliendSecret;
 
-    @Value("${github.redirect.uri}")
-    private String redirectUri;
+    @Value("${github.redirect.url}")
+    private String redirectUrl;
 
     @RequestMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -42,7 +42,7 @@ public class AuthorizeController {
 
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);//得到code
-        accessTokenDTO.setRedirect_uri(redirectUri);
+        accessTokenDTO.setRedirect_uri(redirectUrl);
         accessTokenDTO.setState(state);
         accessTokenDTO.setClient_id(cliendId);
         accessTokenDTO.setClient_secret(cliendSecret);
