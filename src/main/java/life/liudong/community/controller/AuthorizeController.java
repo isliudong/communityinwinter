@@ -59,7 +59,7 @@ public class AuthorizeController {
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userService.createOrUpdeate(user);
+            userService.createOrUpdate(user);
             //登录成功将token写入Cookie
             response.addCookie(new Cookie("token",token));
             return "redirect:";//转发至主页，可以去掉链接后缀信息

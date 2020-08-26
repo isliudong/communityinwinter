@@ -1,7 +1,10 @@
 package life.liudong.community.dto;
 
 import life.liudong.community.cache.RedisOP;
+import life.liudong.community.mapper.UserMapper;
+import life.liudong.community.model.User;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,6 +19,14 @@ class redisTestDTOTest {
     RedisTemplate redisTemplate;
     @Autowired
     RedisOP<PaginationDTO> redisOP;
+
+    @Autowired
+    UserMapper userMapper;
+    @Autowired
+    RedisTemplate<Object,User> userRedisTemplate;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Test
     public void redisSave() throws IOException, ClassNotFoundException {
@@ -43,5 +54,36 @@ class redisTestDTOTest {
 
     }
 
+    //自定义Redis操作模板
+    @Test
+    public void test2(){
+        User user = userMapper.selectByPrimaryKey(673L);
+        userRedisTemplate.opsForValue().set("01",user);
+
+    }
+
+    //mq测试单播
+    @Test
+    public void test3(){
+        User user = userMapper.selectByPrimaryKey(673L);
+        rabbitTemplate.convertAndSend("exchange.direct","demo.news",user);
+
+    }
+
+    @Test
+    public void receive(){
+        Object o = rabbitTemplate.receiveAndConvert("demo.news");
+        User user = (User) o;
+        assert user != null;
+        System.out.println(user.getName());
+    }
+
+    //mq测试广播
+    @Test
+    public void test4(){
+        User user = userMapper.selectByPrimaryKey(673L);
+        rabbitTemplate.convertAndSend("exchange.fanout","",user);
+
+    }
 
 }

@@ -86,7 +86,7 @@ public class QuestionService {
     }
 
     public PaginationDTO<QuestionDTO> list(Long userId, Integer page, Integer size) {
-        Integer totalPage;
+        int totalPage;
 
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria().andCreatorEqualTo(userId);
@@ -97,10 +97,11 @@ public class QuestionService {
         } else {
             totalPage = totalCount / size + 1;
         }
-        if (page < 1)
+        if (page < 1) {
             page = 1;
-        else if (page > totalPage)
+        } else if (page > totalPage) {
             page = totalPage;
+        }
         Integer offset = size * (page - 1);//分页参数
         //List<Question> questionList=questionMapper.listByUserId(userId,offset,size);
         QuestionExample questionExample1 = new QuestionExample();
@@ -178,12 +179,11 @@ public class QuestionService {
         }
 
         String[] tags = StringUtils.split(questionDTO.getTag(), ",|，");
-        String regexTag = Arrays.stream(tags).collect(Collectors.joining("|"));
         Question question = new Question();
         question.setId(questionDTO.getId());
-        question.setTag(regexTag);
 
-
+        //传入regex表达式
+        question.setTag("^(" + String.join("|", tags) + ")$");
         List<Question> relatedQuestions = questionExtMapper.selectRelated(question);
 
 

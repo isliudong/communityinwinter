@@ -113,6 +113,8 @@ idea多行编辑 alt+鼠标左键
 idea参数配置Shift+Ctrl+Alt+/
 
 idea变量inline：ctrl+alt+n
+
+查找子类： ctrl+h
 [其他详见：](https://blog.csdn.net/zhuwinmin/article/details/72841061)
 ##问题
 [OKHttp异常java.lang.IllegalStateException: closed](https://blog.csdn.net/u012587005/article/details/78504925)

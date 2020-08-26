@@ -46,10 +46,11 @@ public class NotificationService {
         } else {
             totalPage = totalCount / size + 1;
         }
-        if (page < 1)
+        if (page < 1) {
             page = 1;
-        else if (page > totalPage)
+        } else if (page > totalPage) {
             page = totalPage;
+        }
         Integer offset = size * (page - 1);//分页参数
         //List<Question> questionList=questionMapper.listByUserId(userId,offset,size);
         NotificationExample example = new NotificationExample();
@@ -65,12 +66,6 @@ public class NotificationService {
             return paginationDTO;
         }
 
-        /*Set<Long> distinctUserId = notifications.stream().map(notify -> notify.getNotifier()).collect(Collectors.toSet());
-        List<Long> userIds = new ArrayList<>(distinctUserId);
-        UserExample userExample = new UserExample();
-        userExample.createCriteria().andIdIn(userIds);
-        List<User> users = userMapper.selectByExample(userExample);
-        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(u -> u.getId(), u -> u));*/
 
         for (Notification notification : notifications) {
             NotificationDTO notificationDTO = new NotificationDTO();

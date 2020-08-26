@@ -1,5 +1,6 @@
 package life.liudong.community.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,13 +14,17 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class CustomizeErrorController implements ErrorController {
+    @Value("${github.client.id}")
+    String clientId;
+    @Value("${github.redirect.url}")
+    String redirect_url;
     @Override
     public String getErrorPath() {
         return "error";
     }
 
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView errorHtml(HttpServletRequest request, Model model) {
+    public String errorHtml(HttpServletRequest request, Model model) {
         HttpStatus status = getStatus(request);
         if (status.is4xxClientError()) {
             model.addAttribute("message","请求出错，换个姿势试试？");
@@ -27,7 +32,9 @@ public class CustomizeErrorController implements ErrorController {
         else if (status.is5xxServerError()){
             model.addAttribute("message","服务器冒烟了，要不然一会儿再试试！");
         }
-        return new ModelAndView("error");
+        model.addAttribute("clientId",clientId);
+        model.addAttribute("redirect_url",redirect_url);
+        return "error";
     }
 
     private HttpStatus getStatus(HttpServletRequest request) {

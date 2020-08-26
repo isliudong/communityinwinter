@@ -36,7 +36,7 @@ public class CommentService {
     private NotificationMapper notificationMapper;
 
 
-    @Transactional//开启事务
+    @Transactional(rollbackFor = Exception.class)//开启事务
     public void insert(Comment comment, User commentator) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
@@ -46,7 +46,7 @@ public class CommentService {
             throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
         }
 
-        if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
+        if (comment.getType().equals(CommentTypeEnum.COMMENT.getType())) {
             //回复评论
             Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
             if (dbComment != null) {
@@ -86,7 +86,7 @@ public class CommentService {
 
     //创建评论通知
     private void createNotification(Comment comment, Long receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Long outerId) {
-        if (receiver==comment.getCommentator()){
+        if (receiver.equals(comment.getCommentator())){
             return;
         }
         Notification notification = new Notification();

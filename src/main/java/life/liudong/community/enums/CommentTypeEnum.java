@@ -1,6 +1,13 @@
 package life.liudong.community.enums;
 
+/**
+ * @author liudong
+ */
+
 public enum CommentTypeEnum {
+    /**
+     * 回复类型
+     */
     QUESTION(1),
     COMMENT(2);
 
@@ -13,7 +20,7 @@ public enum CommentTypeEnum {
 
     public static boolean isExist(Integer type) {
         for (CommentTypeEnum commentTypeEnum : CommentTypeEnum.values()) {
-            if (commentTypeEnum.getType()==type){
+            if (commentTypeEnum.getType().equals(type)){
                 return true;
             }
         }

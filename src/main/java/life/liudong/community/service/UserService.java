@@ -14,7 +14,7 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public void createOrUpdeate(User user) {
+    public void createOrUpdate(User user) {
 
         UserExample userExample = new UserExample();
         userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());

@@ -44,7 +44,7 @@ public class RegisterController {
             newUser.setAvatarUrl("/img/默认头像.png");
             long accountId=userService.getUserCount()+1000;
             newUser.setAccountId(String.valueOf(accountId));
-            userService.createOrUpdeate(newUser);
+            userService.createOrUpdate(newUser);
             return "redirect:/login";
         }
 
@@ -57,7 +57,7 @@ public class RegisterController {
     public ResultDTO verify(@RequestBody JSONObject jsonObject) {
 
         String username = jsonObject.getString("username");
-        if (userService.nameAvailable(username)&& !username.equals("")){
+        if (userService.nameAvailable(username)&& !"".equals(username)){
             return ResultDTO.okOf(200,"昵称合法");
         }
 

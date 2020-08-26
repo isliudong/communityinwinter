@@ -24,11 +24,11 @@ public class IndexController {
     @Autowired
     HotTagCache hotTagCache;
     @Autowired
-    RedisOP<PaginationDTO<QuestionDTO>> redisOP;
+    RedisOP<PaginationDTO<QuestionDTO>> redisOp;
     @Value("${github.client.id}")
     String clientId;
     @Value("${github.redirect.url}")
-    String redirect_url;
+    String redirectUrl;
     @GetMapping("/")
     public String index(Model model,
                         @RequestParam(name = "page",defaultValue = "1") Integer page,
@@ -41,9 +41,7 @@ public class IndexController {
         if (page==1&&search==null&&tag==null){
             try {
                 pagination=questionService.getPageByIdInRedis(page);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }else {pagination=questionService.list(search,tag,page,size);}
@@ -52,7 +50,7 @@ public class IndexController {
         model.addAttribute("pagination",pagination);
         model.addAttribute("search",search);
         model.addAttribute("clientId",clientId);
-        model.addAttribute("redirect_url",redirect_url);
+        model.addAttribute("redirect_url", redirectUrl);
         model.addAttribute("topTags",topTags);
         model.addAttribute("tag",tag);
 

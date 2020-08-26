@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 /**
- * @program: community
- * @description: 热点标签缓存
- * @author: 闲乘月
- * @create: 2020-03-07 10:39
+ * 热点标签缓存
+ * @author 闲乘月
+ * @since 2020-03-07 10:39
  **/
+
 @Component
 @Data
 public class HotTagCache {
@@ -45,7 +45,8 @@ public class HotTagCache {
         //新热门标签放入hots并从大到小排序
         HotTagDTO poll = priorityQueue.poll();
         while (poll!=null){
-            hots.add(0,poll.getName());//将后出队列的标签（最热）放在第一个
+            //将后出队列的标签（最热）放在第一个
+            hots.add(0,poll.getName());
             poll=priorityQueue.poll();
 
         }

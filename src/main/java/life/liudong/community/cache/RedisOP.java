@@ -9,10 +9,9 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 
 /**
- * @program: community
- * @description: Redis操作工具
- * @author: 闲乘月
- * @create: 2020-03-16 15:12
+ *Redis操作工具
+ * @author 闲乘月
+ * @since 2020-03-16 15:12
  **/
 @Component
 public class RedisOP<T> {

@@ -7,6 +7,9 @@ package life.liudong.community.enums;
  * @create: 2020-02-20 11:22
  **/
 public enum NotificationStatusEnum {
+    /**
+     * 通知状态
+     */
     UNREAD(0),READ(1);
     private int status;
 

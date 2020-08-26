@@ -1,6 +1,8 @@
 package life.liudong.community.controller;
 
 import life.liudong.community.dto.FileDTO;
+import life.liudong.community.exception.CustomizeErrorCode;
+import life.liudong.community.exception.CustomizeException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -38,8 +40,15 @@ public class FileController {
 
 
         //得到上传时的原文件名
+        if(file==null){
+            throw new CustomizeException(CustomizeErrorCode.NULL_FILE);
+        }
+
         String originalFilename = file.getOriginalFilename();
         //获取文件后缀名
+        if(originalFilename==null){
+            throw new CustomizeException(CustomizeErrorCode.NO_FILE_NAME);
+        }
         String suffixName = originalFilename.substring(originalFilename.lastIndexOf("."));
         //获取文件格式
         String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
