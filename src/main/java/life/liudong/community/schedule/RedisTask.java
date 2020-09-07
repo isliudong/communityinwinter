@@ -18,9 +18,12 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class RedisTask {
-    @Autowired
+    final
     QuestionService questionService;
 
+    public RedisTask(QuestionService questionService) {
+        this.questionService = questionService;
+    }
     @Scheduled(fixedRate = 300000)
     public void setFirstPage()  {
         PaginationDTO<QuestionDTO> paginationDTO;

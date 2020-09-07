@@ -1,11 +1,10 @@
 package life.liudong.community.controller;
 
 import life.liudong.community.cache.HotTagCache;
-import life.liudong.community.cache.RedisOP;
+import life.liudong.community.cache.RedisOp;
 import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
 import life.liudong.community.service.QuestionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,20 +14,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @author liudong
+ */
 @Controller
 public class IndexController {
 
 
-    @Autowired
+    final
     QuestionService questionService;
-    @Autowired
+    final
     HotTagCache hotTagCache;
-    @Autowired
-    RedisOP<PaginationDTO<QuestionDTO>> redisOp;
-    @Value("${github.client.id}")
-    String clientId;
-    @Value("${github.redirect.url}")
-    String redirectUrl;
+    final
+    RedisOp<PaginationDTO<QuestionDTO>> redisOp;
+
+    public IndexController(QuestionService questionService, HotTagCache hotTagCache, RedisOp<PaginationDTO<QuestionDTO>> redisOp) {
+        this.questionService = questionService;
+        this.hotTagCache = hotTagCache;
+        this.redisOp = redisOp;
+    }
+
     @GetMapping("/")
     public String index(Model model,
                         @RequestParam(name = "page",defaultValue = "1") Integer page,
@@ -49,8 +54,6 @@ public class IndexController {
         List<String> topTags = hotTagCache.getHots();
         model.addAttribute("pagination",pagination);
         model.addAttribute("search",search);
-        model.addAttribute("clientId",clientId);
-        model.addAttribute("redirect_url", redirectUrl);
         model.addAttribute("topTags",topTags);
         model.addAttribute("tag",tag);
 

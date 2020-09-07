@@ -9,17 +9,22 @@ import life.liudong.community.model.Comment;
 import life.liudong.community.model.User;
 import life.liudong.community.service.CommentService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * @author liudong
+ */
 @Controller
 public class CommentController {
-    @Autowired
-    private CommentService commentService;
+    private final CommentService commentService;
+
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
+    }
 
     @ResponseBody//通过json返回数据
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
@@ -51,7 +56,7 @@ public class CommentController {
 
 
 
-    @ResponseBody//通过json返回数据
+    @ResponseBody
     @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
     public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id")Long id){
         List<CommentDTO> commentDTOList = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);

@@ -4,7 +4,6 @@ import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.User;
 import life.liudong.community.model.UserExample;
 import life.liudong.community.service.NotificationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,17 +12,26 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-//定义session拦截器
+
+/**
+ * @author liudong
+ */
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
-    @Autowired
+    final
     UserMapper userMapper;
-    @Autowired
+    final
     NotificationService notificationService;
+
+    public SessionInterceptor(UserMapper userMapper, NotificationService notificationService) {
+        this.userMapper = userMapper;
+        this.notificationService = notificationService;
+    }
+
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         Cookie[] cookies = request.getCookies();
-        if (cookies != null)
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("token".equals(cookie.getName())) {
                     String token = cookie.getValue();
@@ -40,16 +48,17 @@ public class SessionInterceptor implements HandlerInterceptor {
                     break;
                 }
             }
+        }
         return true;
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
 
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 
     }
 }

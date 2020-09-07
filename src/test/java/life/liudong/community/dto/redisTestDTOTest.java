@@ -1,6 +1,6 @@
 package life.liudong.community.dto;
 
-import life.liudong.community.cache.RedisOP;
+import life.liudong.community.cache.RedisOp;
 import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.User;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ class redisTestDTOTest {
     @Autowired
     RedisTemplate redisTemplate;
     @Autowired
-    RedisOP<PaginationDTO> redisOP;
+    RedisOp<PaginationDTO> redisOP;
 
     @Autowired
     UserMapper userMapper;

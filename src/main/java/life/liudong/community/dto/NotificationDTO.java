@@ -1,14 +1,11 @@
 package life.liudong.community.dto;
 
-import life.liudong.community.model.User;
 import lombok.Data;
 
+
 /**
- * @program: community
- * @description: 通知数据交换模型
- * @author: 闲乘月
- * @create: 2020-02-20 13:12
- **/
+ * @author liudong
+ */
 @Data
 public class NotificationDTO {
     private Long id;

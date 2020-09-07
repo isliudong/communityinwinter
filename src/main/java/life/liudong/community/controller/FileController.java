@@ -5,25 +5,20 @@ import life.liudong.community.exception.CustomizeErrorCode;
 import life.liudong.community.exception.CustomizeException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
+
 /**
- * @program: community
- * @description: 文件控制
- * @author: 闲乘月
- * @create: 2020-02-24 11:26
- **/
+ * @author liudong
+ */
 @Controller
 public class FileController {
     @Value("${image.sever.url}")
@@ -50,8 +45,6 @@ public class FileController {
             throw new CustomizeException(CustomizeErrorCode.NO_FILE_NAME);
         }
         String suffixName = originalFilename.substring(originalFilename.lastIndexOf("."));
-        //获取文件格式
-        String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         //获取uuid作为文件名
         String name = UUID.randomUUID().toString().replaceAll("-", "");
         String saveName = name + suffixName;

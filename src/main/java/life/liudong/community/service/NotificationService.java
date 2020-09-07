@@ -7,39 +7,34 @@ import life.liudong.community.enums.NotificationTypeEnum;
 import life.liudong.community.exception.CustomizeErrorCode;
 import life.liudong.community.exception.CustomizeException;
 import life.liudong.community.mapper.NotificationMapper;
-import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.Notification;
 import life.liudong.community.model.NotificationExample;
 import life.liudong.community.model.User;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * @program: community
- * @description:
- * @author: 闲乘月
- * @create: 2020-02-20 13:23
- **/
+ * @author liudong
+ */
 @Service
 public class NotificationService {
-    @Autowired
-    private NotificationMapper notificationMapper;
-
-    @Autowired
-    private UserMapper userMapper;
+    private final NotificationMapper notificationMapper;
+    public NotificationService(NotificationMapper notificationMapper) {
+        this.notificationMapper = notificationMapper;
+    }
 
     public PaginationDTO<NotificationDTO> list(Long userId, Integer page, Integer size) {
 
-        Integer totalPage;
+        int totalPage;
 
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria().andReceiverEqualTo(userId);
-        Integer totalCount = (int) notificationMapper.countByExample(notificationExample);
+        int totalCount = (int) notificationMapper.countByExample(notificationExample);
 
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -51,14 +46,14 @@ public class NotificationService {
         } else if (page > totalPage) {
             page = totalPage;
         }
-        Integer offset = size * (page - 1);//分页参数
-        //List<Question> questionList=questionMapper.listByUserId(userId,offset,size);
+        //分页参数
+        int offset = size * (page - 1);
         NotificationExample example = new NotificationExample();
         example.createCriteria().andReceiverEqualTo(userId);
         example.setOrderByClause("gmt_create desc");
         List<Notification> notifications = notificationMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
 
-        List<NotificationDTO> notificationDTOS = new ArrayList<>();
+        List<NotificationDTO> notificationDTOList = new ArrayList<>();
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
 
         //没有通知
@@ -71,10 +66,10 @@ public class NotificationService {
             NotificationDTO notificationDTO = new NotificationDTO();
             BeanUtils.copyProperties(notification,notificationDTO);
             notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
-            notificationDTOS.add(notificationDTO);
+            notificationDTOList.add(notificationDTO);
         }
 
-        paginationDTO.setData(notificationDTOS);
+        paginationDTO.setData(notificationDTOList);
         paginationDTO.setPagination(totalPage, page);
 
 

@@ -1,5 +1,8 @@
 package life.liudong.community.exception;
 
+/**
+ * @author liudong
+ */
 public class CustomizeException extends RuntimeException {
     private String message;
     private Integer code;

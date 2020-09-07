@@ -16,10 +16,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author liudong
+ */
 @Controller
 public class PublishController {
-    @Autowired
-    private QuestionService questionService;
+    private final QuestionService questionService;
+
+    public PublishController(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+
     @GetMapping("/publish")
     public String publish(Model model){
         model.addAttribute("tags",TagCache.get());

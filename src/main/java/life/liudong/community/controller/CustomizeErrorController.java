@@ -1,23 +1,20 @@
 package life.liudong.community.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author liudong
+ */
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class CustomizeErrorController implements ErrorController {
-    @Value("${github.client.id}")
-    String clientId;
-    @Value("${github.redirect.url}")
-    String redirect_url;
     @Override
     public String getErrorPath() {
         return "error";
@@ -32,8 +29,6 @@ public class CustomizeErrorController implements ErrorController {
         else if (status.is5xxServerError()){
             model.addAttribute("message","服务器冒烟了，要不然一会儿再试试！");
         }
-        model.addAttribute("clientId",clientId);
-        model.addAttribute("redirect_url",redirect_url);
         return "error";
     }
 

@@ -3,32 +3,32 @@ package life.liudong.community.service;
 import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.User;
 import life.liudong.community.model.UserExample;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author liudong
+ */
 @Service
 public class UserService {
+    private final UserMapper userMapper;
 
-    @Autowired
-    private UserMapper userMapper;
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     public void createOrUpdate(User user) {
 
         UserExample userExample = new UserExample();
         userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
-
         List<User> users = userMapper.selectByExample(userExample);
-
         if (users.size() == 0) {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
         } else {
             User dbUser = users.get(0);
-
-
             User updateUser = new User();
             updateUser.setGmtModified(System.currentTimeMillis());
             updateUser.setAvatarUrl(user.getAvatarUrl());
@@ -41,7 +41,7 @@ public class UserService {
         }
     }
 
-    //可用返回true
+    /**可用返回true*/
     public boolean nameAvailable(String name) {
         UserExample example = new UserExample();
         example.createCriteria().andNameEqualTo(name);

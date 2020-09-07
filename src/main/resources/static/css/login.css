@@ -6,7 +6,7 @@ body{
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: #34495e;
+    background-color: #e7e7e7;
 }
 .login_box {
     width: 300px;
@@ -142,9 +142,9 @@ body{
 .register_url {
     position: absolute;
     right: 13px;
-    top: 8px;
+    top: 0;
     background: none;
     border: 0;
     text-decoration: none;
-    color: #f0f8ff;
+    color: #333333;
 }

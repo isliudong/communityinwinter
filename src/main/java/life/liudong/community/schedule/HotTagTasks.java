@@ -7,29 +7,29 @@ import life.liudong.community.model.QuestionExample;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+
 /**
- * @program: community
- * @description: 计划任务-获取热门标签
- * @author: 闲乘月
- * @create: 2020-03-06 22:22
- **/
+ * @author liudong
+ */
 @Component
 @Slf4j
 public class HotTagTasks {
-    @Autowired
-    private QuestionMapper questionMapper;
+    private final QuestionMapper questionMapper;
+    private final HotTagCache hotTagCache;
 
-    @Autowired
-    private HotTagCache hotTagCache;
+    public HotTagTasks(QuestionMapper questionMapper, HotTagCache hotTagCache) {
+        this.questionMapper = questionMapper;
+        this.hotTagCache = hotTagCache;
+    }
 
 
-    @Scheduled(fixedRate = 1000*60*60)//时间控制暂定5秒有利于开发
+    //时间控制5秒有利于开发
+    @Scheduled(fixedRate = 1000*60*60)
     //@Scheduled(cron="0 0 1 * * *")
     public void hotTagSchedule() {
         int offset = 0;
@@ -42,7 +42,6 @@ public class HotTagTasks {
         while (offset == 0 || list.size() == limit) {
             list = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, limit));
             for (Question question : list) {
-
                 String[] tagsInQuestion = StringUtils.split(question.getTag(), ",");
                 for (String aTag : tagsInQuestion) {
                     Integer priority = hotTags.get(aTag);

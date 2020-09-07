@@ -4,13 +4,16 @@ import life.liudong.community.exception.CustomizeErrorCode;
 import life.liudong.community.exception.CustomizeException;
 import lombok.Data;
 
+/**
+ * @author liudong
+ */
 @Data
 public class ResultDTO<T> {
     private Integer code;
     private String message;
     private T data;
 
-    public static ResultDTO errorOf(Integer code,String message){
+    public static  ResultDTO errorOf(Integer code,String message){
         ResultDTO resultDTO=new ResultDTO();
         resultDTO.setCode(code);
         resultDTO.setMessage(message);

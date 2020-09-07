@@ -5,11 +5,9 @@ import life.liudong.community.dto.ResultDTO;
 import life.liudong.community.exception.CustomizeErrorCode;
 import life.liudong.community.exception.CustomizeException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,13 +21,8 @@ import java.io.PrintWriter;
 @ControllerAdvice
 public class CustomizeExceptionHandler {
 
-    @Value("${github.client.id}")
-    String clientId;
-    @Value("${github.redirect.url}")
-    String redirectUrl;
-
     @ExceptionHandler(Exception.class)
-    Object handle(Throwable ex, Model model, HttpServletRequest request, HttpServletResponse response) {
+    Object handle(Throwable ex, HttpServletRequest request, HttpServletResponse response) {
 
 
         String contentType = request.getContentType();
@@ -67,9 +60,6 @@ public class CustomizeExceptionHandler {
             } else {
                 error.addObject("message",CustomizeErrorCode.SYS_ERROR.getMessage());
             }
-            //返回视图
-            error.addObject("clientId",clientId);
-            error.addObject("redirect_url",redirectUrl);
             return error;
         }
 

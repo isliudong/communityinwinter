@@ -3,12 +3,10 @@ package life.liudong.community.dto;
 import life.liudong.community.model.User;
 import lombok.Data;
 
+
 /**
- * @program: community
- * @description:
- * @author: 闲乘月
- * @create: 2020-02-07 16:05
- **/
+ * @author liudong
+ */
 @Data
 public class CommentDTO {
     private Long id;

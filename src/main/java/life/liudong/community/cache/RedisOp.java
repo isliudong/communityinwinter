@@ -1,22 +1,23 @@
 package life.liudong.community.cache;
 
-import life.liudong.community.dto.PaginationDTO;
-import life.liudong.community.dto.QuestionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 
+
 /**
- *Redis操作工具
- * @author 闲乘月
- * @since 2020-03-16 15:12
- **/
+ * @author liudong
+ */
 @Component
-public class RedisOP<T> {
-    @Autowired
+public class RedisOp<T> {
+    final
     RedisTemplate redisTemplate;
+
+    public RedisOp(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     public void setObject(Long id, T object) throws IOException {
         //将对象序列化成字节数组

@@ -1,20 +1,19 @@
 package life.liudong.community.dto;
 
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
+
 
 /**
- * @program: community
- * @description:
- * @author: 闲乘月
- * @create: 2020-03-07 19:10
- **/
+ * @author liudong
+ */
 @Data
-public class HotTagDTO implements Comparable {
+public class HotTagDTO implements Comparable<HotTagDTO> {
     private String name;
     private Integer priority;
 
     @Override
-    public int compareTo(Object o) {
-        return this.getPriority()-((HotTagDTO)o).getPriority();
+    public int compareTo(@NotNull HotTagDTO hotTagDTO) {
+        return this.getPriority()-hotTagDTO.getPriority();
     }
 }

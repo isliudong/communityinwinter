@@ -9,34 +9,37 @@ import life.liudong.community.exception.CustomizeException;
 import life.liudong.community.mapper.*;
 import life.liudong.community.model.*;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @author liudong
+ */
 @Service
 public class CommentService {
 
-    @Autowired(required = false)
-    private CommentMapper commentMapper;
-    @Autowired
-    private QuestionMapper questionMapper;
-    @Autowired
-    private QuestionExtMapper questionExtMapper;
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private CommentExtMapper commentExtMapper;
-    @Autowired
-    private NotificationMapper notificationMapper;
+    private final CommentMapper commentMapper;
+    private final QuestionMapper questionMapper;
+    private final QuestionExtMapper questionExtMapper;
+    private final UserMapper userMapper;
+    private final CommentExtMapper commentExtMapper;
+    private final NotificationMapper notificationMapper;
 
+    public CommentService(CommentMapper commentMapper, QuestionMapper questionMapper, QuestionExtMapper questionExtMapper, UserMapper userMapper, CommentExtMapper commentExtMapper, NotificationMapper notificationMapper) {
+        this.commentMapper = commentMapper;
+        this.questionMapper = questionMapper;
+        this.questionExtMapper = questionExtMapper;
+        this.userMapper = userMapper;
+        this.commentExtMapper = commentExtMapper;
+        this.notificationMapper = notificationMapper;
+    }
 
-    @Transactional(rollbackFor = Exception.class)//开启事务
+    /**开启事务*/
+    @Transactional(rollbackFor = Exception.class)
     public void insert(Comment comment, User commentator) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
@@ -84,7 +87,7 @@ public class CommentService {
         }
     }
 
-    //创建评论通知
+    /**创建评论通知*/
     private void createNotification(Comment comment, Long receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Long outerId) {
         if (receiver.equals(comment.getCommentator())){
             return;
@@ -103,7 +106,8 @@ public class CommentService {
 
     public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
         CommentExample example = new CommentExample();
-        example.createCriteria().andParentIdEqualTo(id).andTypeEqualTo(type.getType());//type为question类型，回复有两种类型，此处为问题回复
+        //type为question类型，回复有两种类型，此处为问题回复
+        example.createCriteria().andParentIdEqualTo(id).andTypeEqualTo(type.getType());
         //倒序
         example.setOrderByClause("gmt_create desc");
         List<Comment> commentList = commentMapper.selectByExample(example);
@@ -113,22 +117,20 @@ public class CommentService {
         }
         //获取去重评论人id
         //Java8语法：集合流式处理,不采用QuestionService中遍历question寻找UserId的方法（费时）
-        Set<Long> commentators = commentList.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());
-        List<Long> userIds = new ArrayList<>(commentators);
+        List<Long> userIds = commentList.stream().map(Comment::getCommentator).distinct().collect(Collectors.toList());
 
         //获取评论user对象转换为map
         UserExample userExample = new UserExample();
         userExample.createCriteria().andIdIn(userIds);
         List<User> users = userMapper.selectByExample(userExample);
-        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
+        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(User::getId, user -> user));
 
         //将构造commentDTO
-        List<CommentDTO> commentDTOList = commentList.stream().map(comment -> {
+        return commentList.stream().map(comment -> {
             CommentDTO commentDTO = new CommentDTO();
             BeanUtils.copyProperties(comment, commentDTO);
             commentDTO.setUser(userMap.get(comment.getCommentator()));
             return commentDTO;
         }).collect(Collectors.toList());
-        return commentDTOList;
     }
 }

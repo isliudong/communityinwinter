@@ -1,11 +1,10 @@
 package life.liudong.community.enums;
 
+
 /**
- * @program: community
- * @description: 通知状态枚举
- * @author: 闲乘月
- * @create: 2020-02-20 11:22
- **/
+ * @author liudong
+ */
+
 public enum NotificationStatusEnum {
     /**
      * 通知状态

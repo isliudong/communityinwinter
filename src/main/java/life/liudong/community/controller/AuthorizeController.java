@@ -6,7 +6,6 @@ import life.liudong.community.model.User;
 import life.liudong.community.provider.GithubProvider;
 import life.liudong.community.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,22 +17,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
+/**
+ * @author liudong
+ */
 @Controller
 @Slf4j
 public class AuthorizeController {
-    @Autowired
-    private GithubProvider githubProvider;
+    private final GithubProvider githubProvider;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
     @Value("${github.client.id}")
-    private String cliendId;
+    private String clientId;
 
     @Value("${github.client.secret}")
-    private String cliendSecret;
+    private String clientSecret;
 
     @Value("${github.redirect.url}")
     private String redirectUrl;
+
+    public AuthorizeController(GithubProvider githubProvider, UserService userService) {
+        this.githubProvider = githubProvider;
+        this.userService = userService;
+    }
 
     @RequestMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -41,33 +46,29 @@ public class AuthorizeController {
                            HttpServletResponse response) {
 
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
-        accessTokenDTO.setCode(code);//得到code
+        accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUrl);
         accessTokenDTO.setState(state);
-        accessTokenDTO.setClient_id(cliendId);
-        accessTokenDTO.setClient_secret(cliendSecret);
+        accessTokenDTO.setClient_id(clientId);
+        accessTokenDTO.setClient_secret(clientSecret);
 
-        String accessToken=githubProvider.getAccessToken(accessTokenDTO);//通过code得到accessToken
-        GithubUser githubUser=githubProvider.getUser(accessToken);//通过accessToken得到用户信息
+        //通过code得到accessToken
+        String accessToken=githubProvider.getAccessToken(accessTokenDTO);
+        //通过accessToken得到用户信息
+        GithubUser githubUser=githubProvider.getUser(accessToken);
         log.info("git用户："+githubUser.getName()+"登录");
-        if(githubUser!=null)
-        {
 
-            User user = new User();
-            String token = UUID.randomUUID().toString();//uuid主键生成策略
-            user.setToken(token);
-            user.setName(githubUser.getName());
-            user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setAvatarUrl(githubUser.getAvatarUrl());
-            userService.createOrUpdate(user);
-            //登录成功将token写入Cookie
-            response.addCookie(new Cookie("token",token));
-            return "redirect:";//转发至主页，可以去掉链接后缀信息
-        }else {
-            log.error("callback get github error, {}",githubUser);
-            return "redirect:";
-            //登录失败
-        }
+        User user = new User();
+        //uuid主键生成策略
+        String token = UUID.randomUUID().toString();
+        user.setToken(token);
+        user.setName(githubUser.getName());
+        user.setAccountId(String.valueOf(githubUser.getId()));
+        user.setAvatarUrl(githubUser.getAvatarUrl());
+        userService.createOrUpdate(user);
+        //登录成功将token写入Cookie
+        response.addCookie(new Cookie("token",token));
+        return "redirect:";
 
     }
     @GetMapping("/logout")

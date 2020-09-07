@@ -1,11 +1,10 @@
 package life.liudong.community.enums;
 
+
 /**
- * @program: community
- * @description: 通知消息类型枚举
- * @author: 闲乘月
- * @create: 2020-02-20 11:01
- **/
+ * @author liudong
+ */
+
 public enum NotificationTypeEnum {
     /**
      * 评论对象类型

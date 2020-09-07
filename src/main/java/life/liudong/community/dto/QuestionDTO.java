@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @author liudong
+ */
 @Data
 public class QuestionDTO implements Serializable {
     private Long id;

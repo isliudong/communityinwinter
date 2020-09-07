@@ -8,6 +8,8 @@ class CommunityApplicationTests {
 
     @Test
     void contextLoads() {
+        String path = System.getProperty("user.dir");
+        System.out.println(path);
     }
 
 }

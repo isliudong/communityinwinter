@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 @Component
 public class GithubProvider {
-    public String getAccessToken(AccessTokenDTO accessTokenDTO){
+    public String getAccessToken(AccessTokenDTO accessTokenDTO) {
 
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
@@ -26,15 +26,16 @@ public class GithubProvider {
                 .url("https://github.com/login/oauth/access_token")
                 .post(body)
                 .build();
+        String accessToken;
+        String token;
         try (Response response = client.newCall(request).execute()) {
-            String accessToken;
-            String token;
-            if(response.body()!=null){
-                accessToken =response.body().string();
-                token= stringHand(accessToken );
+            if (response.body() != null) {
+                accessToken = response.body().string();
+                token = stringHand(accessToken);
                 return token;
+            } else {
+                throw new CustomizeException(CustomizeErrorCode.ERROR_TO_LOGIN);
             }
-            throw new CustomizeException(CustomizeErrorCode.ERROR_TO_LOGIN);
         } catch (IOException e) {
             e.printStackTrace();
             throw new CustomizeException(CustomizeErrorCode.ERROR_TO_LOGIN);
@@ -44,21 +45,20 @@ public class GithubProvider {
     /**
      * 通过accessToken获取git用户信息
      */
-    public GithubUser getUser(String accessToken){
+    public GithubUser getUser(String accessToken) {
         OkHttpClient client = new OkHttpClient();
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url("https://api.github.com/user")
-                .header("Authorization","token "+accessToken)
+                .header("Authorization", "token " + accessToken)
                 .get().build();
         try {
             Response response = client.newCall(request).execute();
             assert response.body() != null;
-            String responseJson=response.body().string();
+            String responseJson = response.body().string();
             //通过JSON生成用户对象
             GithubUser githubUser = JSON.parseObject(responseJson, GithubUser.class);
-            if(githubUser.getName()==null)
-            {
-                JSONObject jsonObject=JSON.parseObject(responseJson);
+            if (githubUser.getName() == null) {
+                JSONObject jsonObject = JSON.parseObject(responseJson);
                 githubUser.setName(jsonObject.getString("login"));
             }
             return githubUser;
@@ -70,12 +70,12 @@ public class GithubProvider {
 
     /**
      * token字符串处理
+     *
      * @return token串
      */
-    public   String stringHand(String string)
-    {
-        String[] split=string.split("&");
-        String token=split[0];
+    public String stringHand(String string) {
+        String[] split = string.split("&");
+        String token = split[0];
         return token.split("=")[1];
     }
 }

@@ -15,36 +15,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
- * @program: community
- * @description: 通知控制
- * @author: 闲乘月
- * @create: 2020-02-22 12:02
- **/
+ * @author liudong
+ */
 @Controller
 public class NotificationController {
-    @Autowired NotificationService notificationService;
-    @GetMapping("/notification/{id}")//动态路径
-    public String profile(@PathVariable(name = "id") Long id,HttpServletRequest request){
+    final NotificationService notificationService;
 
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
+    @GetMapping("/notification/{id}")
+    public String profile(@PathVariable(name = "id") Long id, HttpServletRequest request) {
 
-        User user=(User) request.getSession().getAttribute("user");
-        if (user==null)
-        {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
             return "redirect:/";
         }
-        NotificationDTO notificationDTO=notificationService.read(id,user);
+        NotificationDTO notificationDTO = notificationService.read(id, user);
 
-
-        if (NotificationTypeEnum.REPLY_COMMENT.getType()==notificationDTO.getType()
-                ||NotificationTypeEnum.REPLY_QUESTION.getType()==notificationDTO.getType())
-        {
-
-            return "redirect:/question/"+notificationDTO.getOuterId();
-        }
-
-        else {
+        if (NotificationTypeEnum.REPLY_COMMENT.getType() == notificationDTO.getType()
+                || NotificationTypeEnum.REPLY_QUESTION.getType() == notificationDTO.getType()) {
+            return "redirect:/question/" + notificationDTO.getOuterId();
+        } else {
             return "redirect:/";
         }
     }
