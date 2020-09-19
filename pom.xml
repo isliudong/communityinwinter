@@ -119,11 +119,19 @@
             <version>1.6.2</version>
         </dependency>
 
+        <!--工具包-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.4.3</version>
+        </dependency>
+
         <!--项目暂时未使用，目前用于学习测试mq-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+
 
 
     </dependencies>
