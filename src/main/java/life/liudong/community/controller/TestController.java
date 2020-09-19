@@ -50,8 +50,8 @@ public class TestController {
         return "ajaxTest";
     }
 
-    @RequestMapping("/1")
+    @RequestMapping("/me")
     public String face() {
-        return "login_model";
+        return "me";
     }
 }
