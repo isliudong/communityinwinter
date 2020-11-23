@@ -88,7 +88,7 @@ public class IndexController {
         model.addAttribute("pagination", paginationDTO);
         model.addAttribute("search",keyword);
         model.addAttribute("topTags",topTags);
-        return "index";
+        return "search";
     }
 
 

@@ -23,12 +23,15 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -36,10 +39,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * @author liudong
  */
@@ -202,6 +208,7 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+        addToEs(Collections.singletonList(question));
     }
 
     public void incView(Long id) {
@@ -264,20 +271,37 @@ public class QuestionService {
         //模糊匹配
 
         MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("description", keyword);
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        highlightBuilder.field("description");
+        highlightBuilder.preTags("<span style='color:red'>");
+        highlightBuilder.postTags("</span>");
+        //多高亮
+        highlightBuilder.requireFieldMatch(true);
         sourceBuilder.query(matchQuery);
         sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
         sourceBuilder.from(page);
+        sourceBuilder.highlighter(highlightBuilder);
         sourceBuilder.size(size);
 
         //执行搜索
         searchRequest.source(sourceBuilder);
-        SearchResponse response = null;
+        SearchResponse response;
         try {
             response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-            //解析
+            //解析,高亮字段替换原有字段
             for (SearchHit fields : response.getHits().getHits()) {
-
-                list.add(fields.getSourceAsMap());
+                Map<String, HighlightField> highlightFields = fields.getHighlightFields();
+                HighlightField description = highlightFields.get("description");
+                Map<String, Object> sourceAsMap = fields.getSourceAsMap();
+                if (description!=null){
+                    Text[] fragments = description.fragments();
+                    StringBuilder description2= new StringBuilder();
+                    for (Text fragment : fragments) {
+                        description2.append(fragment);
+                    }
+                    sourceAsMap.put("description",description2);
+                }
+                list.add(sourceAsMap);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -287,9 +311,16 @@ public class QuestionService {
                 .collect(Collectors.toList());
     }
 
+
+
+    /**
+     * 初始化es索引库
+     *
+     */
     public void iniEs() throws IOException {
-        //查询数据
-        List<Question> questions = getAll();
+        addToEs(getAll());
+    }
+    public void addToEs(List<Question> questions) {
         //数据放入es
         BulkRequest bulkRequest = new BulkRequest();
         bulkRequest.timeout("2m");
@@ -300,7 +331,12 @@ public class QuestionService {
             );
         }
         //执行请求
-        BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
-        bulk.hasFailures();
+        BulkResponse bulk;
+        try {
+            bulk = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
+            bulk.hasFailures();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
