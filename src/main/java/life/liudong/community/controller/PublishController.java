@@ -4,6 +4,7 @@ import life.liudong.community.cache.TagCache;
 import life.liudong.community.dto.QuestionDTO;
 import life.liudong.community.model.Question;
 import life.liudong.community.model.User;
+import life.liudong.community.schedule.RedisTask;
 import life.liudong.community.service.QuestionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,55 +22,57 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class PublishController {
-    private final QuestionService questionService;
+    private QuestionService questionService;
+    private RedisTask redisTask;
 
-    public PublishController(QuestionService questionService) {
+    public PublishController(QuestionService questionService, RedisTask redisTask) {
         this.questionService = questionService;
+        this.redisTask = redisTask;
     }
 
     @GetMapping("/publish")
-    public String publish(Model model){
-        model.addAttribute("tags",TagCache.get());
+    public String publish(Model model) {
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
     @PostMapping("/publish")
     public String doPublish(
-            @RequestParam(value = "title" ,required = false) String title,
-            @RequestParam(value = "description",required = false) String description,
-            @RequestParam(value = "tag",required = false) String tag,
-            @RequestParam(value = "id",required = false) Long id,
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "tag", required = false) String tag,
+            @RequestParam(value = "id", required = false) Long id,
             HttpServletRequest request,
             Model model
-    ){
+    ) {
 
-        model.addAttribute("title",title);
-        model.addAttribute("description",description);
-        model.addAttribute("tag",tag);
-        model.addAttribute("tags",TagCache.get());
+        model.addAttribute("title", title);
+        model.addAttribute("description", description);
+        model.addAttribute("tag", tag);
+        model.addAttribute("tags", TagCache.get());
 
-        if (title==null|| "".equals(title)){
-            model.addAttribute("error","标题不能为空");
+        if (title == null || "".equals(title)) {
+            model.addAttribute("error", "标题不能为空");
             return "publish";
         }
-        if (description==null|| "".equals(description)){
-            model.addAttribute("error","描述不能为空");
+        if (description == null || "".equals(description)) {
+            model.addAttribute("error", "描述不能为空");
             return "publish";
         }
-        if (tag==null|| "".equals(tag)){
-            model.addAttribute("error","标签不能为空");
+        if (tag == null || "".equals(tag)) {
+            model.addAttribute("error", "标签不能为空");
             return "publish";
         }
 
         String inValid = TagCache.filterInValid(tag);
-        if (StringUtils.isNotBlank(inValid)){
-            model.addAttribute("error","不合理标签:"+inValid);
+        if (StringUtils.isNotBlank(inValid)) {
+            model.addAttribute("error", "不合理标签:" + inValid);
             return "publish";
         }
 
-        User user=(User) request.getSession().getAttribute("user");
-        if(user==null){
-            model.addAttribute("error","未登录!");
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            model.addAttribute("error", "未登录!");
             return "publish";
         }
         Question question = new Question();
@@ -79,20 +82,21 @@ public class PublishController {
         question.setTitle(title);
         question.setId(id);
         questionService.createOrUpdate(question);
+        redisTask.setFirstPage();
+
         //ready to be beater
 
         return "redirect:";
     }
 
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable(name = "id") Long id,Model model)
-    {
+    public String edit(@PathVariable(name = "id") Long id, Model model) {
         QuestionDTO question = questionService.getById(id);
-        model.addAttribute("title",question.getTitle());
-        model.addAttribute("description",question.getDescription());
-        model.addAttribute("tag",question.getTag());
-        model.addAttribute("id",question.getId());
-        model.addAttribute("tags",TagCache.get());
+        model.addAttribute("title", question.getTitle());
+        model.addAttribute("description", question.getDescription());
+        model.addAttribute("tag", question.getTag());
+        model.addAttribute("id", question.getId());
+        model.addAttribute("tags", TagCache.get());
 
         return "publish";
     }

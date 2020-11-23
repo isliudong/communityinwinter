@@ -1,5 +1,6 @@
 package life.liudong.community.service;
 
+import life.liudong.community.exception.CustomizeException;
 import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.User;
 import life.liudong.community.model.UserExample;
@@ -19,7 +20,6 @@ public class UserService {
     }
 
     public void createOrUpdate(User user) {
-
         UserExample userExample = new UserExample();
         userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
         List<User> users = userMapper.selectByExample(userExample);
@@ -37,11 +37,12 @@ public class UserService {
             UserExample example = new UserExample();
             example.createCriteria().andIdEqualTo(dbUser.getId());
             userMapper.updateByExampleSelective(updateUser, example);
-
         }
     }
 
-    /**可用返回true*/
+    /**
+     * 可用返回true
+     */
     public boolean nameAvailable(String name) {
         UserExample example = new UserExample();
         example.createCriteria().andNameEqualTo(name);
@@ -51,5 +52,17 @@ public class UserService {
 
     public long getUserCount() {
         return userMapper.countByExample(new UserExample());
+    }
+
+    public void updateByAccountId(String accountId, User user) {
+
+        if (nameAvailable(user.getName())){
+            UserExample example = new UserExample();
+            example.createCriteria().andAccountIdEqualTo(accountId);
+            userMapper.updateByExampleSelective(user, example);
+        }else {
+            throw new CustomizeException("昵称被占用了");
+        }
+
     }
 }

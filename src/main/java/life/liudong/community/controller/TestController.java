@@ -2,14 +2,20 @@ package life.liudong.community.controller;
 
 import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
+import life.liudong.community.mapper.UserMapper;
+import life.liudong.community.model.User;
+import life.liudong.community.model.UserExample;
 import life.liudong.community.service.QuestionService;
+import life.liudong.community.utl.FileHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 
 /**
@@ -18,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class TestController {
 
+    @Autowired
+    UserMapper userMapper;
     final
     QuestionService questionService;
     final
@@ -51,7 +59,13 @@ public class TestController {
     }
 
     @RequestMapping("/me")
-    public String face() {
+    public String face(Model model, HttpServletRequest request) {
+        User currentUser = (User) request.getSession().getAttribute("user");
+        if(Objects.nonNull(currentUser)){
+            UserExample example = new UserExample();
+            example.createCriteria().andAccountIdEqualTo(currentUser.getAccountId());
+            model.addAttribute("user",userMapper.selectByExample(example).get(0));
+        }
         return "me";
     }
 }

@@ -1,5 +1,6 @@
 package life.liudong.community.service;
 
+import com.alibaba.fastjson.JSON;
 import life.liudong.community.cache.RedisOp;
 import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
@@ -15,13 +16,29 @@ import life.liudong.community.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 /**
  * @author liudong
@@ -32,14 +49,15 @@ public class QuestionService {
     private final QuestionExtMapper questionExtMapper;
     private final UserMapper userMapper;
     private final QuestionMapper questionMapper;
-    final
-    RedisOp<PaginationDTO<QuestionDTO>> redisOP;
+    private final RedisOp<PaginationDTO<QuestionDTO>> redisOP;
+    private final RestHighLevelClient restHighLevelClient;
 
-    public QuestionService(QuestionExtMapper questionExtMapper, UserMapper userMapper, QuestionMapper questionMapper, RedisOp<PaginationDTO<QuestionDTO>> redisOp) {
+    public QuestionService(QuestionExtMapper questionExtMapper, UserMapper userMapper, QuestionMapper questionMapper, RedisOp<PaginationDTO<QuestionDTO>> redisOp, RestHighLevelClient restHighLevelClient) {
         this.questionExtMapper = questionExtMapper;
         this.userMapper = userMapper;
         this.questionMapper = questionMapper;
         this.redisOP = redisOp;
+        this.restHighLevelClient = restHighLevelClient;
     }
 
     public PaginationDTO<QuestionDTO> list(String search, String tag, Integer page, Integer size) {
@@ -48,6 +66,8 @@ public class QuestionService {
         if (StringUtils.isNotBlank(search)) {
             String[] tags = StringUtils.split(search, " ");
             search = String.join("|", tags);
+        }else {
+            search=null;
         }
 
 
@@ -64,7 +84,7 @@ public class QuestionService {
         }
         if (page < 1) {
             page = 1;
-        } else if (page > totalPage) {
+        }else if (page > totalPage&&totalPage>0) {
             page = totalPage;
         }
         //分页起始数据位置
@@ -78,6 +98,32 @@ public class QuestionService {
 
 
         return setPage(page, totalPage, questionList);
+    }
+    public PaginationDTO<QuestionDTO> quickList(String search, Integer page, Integer size) {
+
+        //标签为空
+        if (StringUtils.isNotBlank(search)) {
+            String[] tags = StringUtils.split(search, " ");
+            search = String.join("|", tags);
+        }else {
+            search=null;
+        }
+        int totalPage;
+        List<Question> questions = quickSearch(page, size, search);
+        //简单强转为int，用户不多
+        Integer totalCount = questions.size();
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
+        if (page < 1) {
+            page = 1;
+        }else if (page > totalPage&&totalPage>0) {
+            page = totalPage;
+        }
+
+        return setPage(page, totalPage, questions);
     }
 
     public PaginationDTO<QuestionDTO> list(Long userId, Integer page, Integer size) {
@@ -194,7 +240,7 @@ public class QuestionService {
     public void setPageInRedis(long id, PaginationDTO<QuestionDTO> paginationDTO) {
         try {
             redisOP.setObject(id, paginationDTO);
-            log.info("==========>缓存首页完成！");
+            log.info("==========>缓存首页刷新！");
         } catch (IOException e) {
            log.error("redis写入paginationDTO失败！详情:"+e.getMessage());
         }
@@ -203,5 +249,58 @@ public class QuestionService {
     /**在redis缓存获取paginationDTO*/
     public PaginationDTO<QuestionDTO> getPageByIdInRedis(long id) throws IOException, ClassNotFoundException {
         return redisOP.getObject(id);
+    }
+
+    public List<Question> getAll() {
+        return questionMapper.selectByExample(new QuestionExample());
+    }
+
+    public List<Question> quickSearch(Integer page, Integer size, String keyword) {
+        List<Map<String,Object>> list =new ArrayList<>();
+        //构建搜索
+        SearchRequest searchRequest = new SearchRequest("question");
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+
+        //模糊匹配
+
+        MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("description", keyword);
+        sourceBuilder.query(matchQuery);
+        sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+        sourceBuilder.from(page);
+        sourceBuilder.size(size);
+
+        //执行搜索
+        searchRequest.source(sourceBuilder);
+        SearchResponse response = null;
+        try {
+            response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+            //解析
+            for (SearchHit fields : response.getHits().getHits()) {
+
+                list.add(fields.getSourceAsMap());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list.stream()
+                .map((questionMap) -> JSON.parseObject(JSON.toJSONString(questionMap), Question.class))
+                .collect(Collectors.toList());
+    }
+
+    public void iniEs() throws IOException {
+        //查询数据
+        List<Question> questions = getAll();
+        //数据放入es
+        BulkRequest bulkRequest = new BulkRequest();
+        bulkRequest.timeout("2m");
+        for (Question question : questions) {
+            bulkRequest.add(
+                    new IndexRequest("question")
+                            .source(JSON.toJSONString(question), XContentType.JSON).type("ld")
+            );
+        }
+        //执行请求
+        BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
+        bulk.hasFailures();
     }
 }

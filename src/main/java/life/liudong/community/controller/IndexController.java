@@ -5,11 +5,11 @@ import life.liudong.community.cache.RedisOp;
 import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
 import life.liudong.community.service.QuestionService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.List;
@@ -59,4 +59,37 @@ public class IndexController {
 
         return "index";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @GetMapping("init-search")
+    @ResponseBody
+    public void initEs() throws IOException {
+        questionService.iniEs();
+    }
+
+    @GetMapping("quick-search")
+    public String search(Model model, @RequestParam(name = "page",defaultValue = "0") Integer page,
+                         @RequestParam(name = "size",defaultValue = "4") Integer size,
+                         @RequestParam(name="keyword",required = false) String keyword) {
+        List<String> topTags = hotTagCache.getHots();
+        PaginationDTO<QuestionDTO> paginationDTO = questionService.quickList(keyword, page, size);
+        model.addAttribute("pagination", paginationDTO);
+        model.addAttribute("search",keyword);
+        model.addAttribute("topTags",topTags);
+        return "index";
+    }
+
+
 }

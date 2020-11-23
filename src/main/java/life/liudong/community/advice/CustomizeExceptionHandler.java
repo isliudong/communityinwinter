@@ -5,9 +5,11 @@ import life.liudong.community.dto.ResultDTO;
 import life.liudong.community.exception.CustomizeErrorCode;
 import life.liudong.community.exception.CustomizeException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.io.PrintWriter;
 
 /**
  * 全局异常切面
+ *
  * @author liudong
  */
 
@@ -33,7 +36,9 @@ public class CustomizeExceptionHandler {
             if (ex instanceof CustomizeException) {
                 //已知异常，返回异常详情
                 resultDTO = ResultDTO.errorOf((CustomizeException) ex);
-            } else {
+            } else if(ex instanceof MethodArgumentNotValidException) {
+                resultDTO=ResultDTO.errorOf(509,"参数错误");
+            }else{
                 //未知异常，统一返回系统错误
                 resultDTO = ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
             }
@@ -53,12 +58,14 @@ public class CustomizeExceptionHandler {
             return null;
 
         } else {
-            ModelAndView error = new ModelAndView("error");
             //非接口错误跳转页面
+            ModelAndView error = new ModelAndView("error");
             if (ex instanceof CustomizeException) {
-                error.addObject("message",ex.getMessage());
-            } else {
-                error.addObject("message",CustomizeErrorCode.SYS_ERROR.getMessage());
+                error.addObject("message", ex.getMessage());
+            } else if(ex instanceof MethodArgumentNotValidException) {
+                error.addObject("message", "参数错误");
+            }else {
+                error.addObject("message", CustomizeErrorCode.SYS_ERROR.getMessage());
             }
             return error;
         }

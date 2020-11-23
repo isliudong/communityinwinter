@@ -76,7 +76,7 @@ public class AuthorizeController {
                 System.out.println("缓存头像失败");
                 e.printStackTrace();
             }finally {
-                user.setAvatarUrl("/img/"+img );
+                user.setAvatarUrl("/img/"+img);
             }
         }
 

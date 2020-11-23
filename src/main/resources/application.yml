@@ -1,0 +1,39 @@
+github:
+  client:
+    id: 5a0ae794703f8d9490fd
+    secret: 9c7c58b5780b10395f3ccfc0ec173cf673660115
+  redirect:
+    url: http://localhost:8080/callback
+image:
+  sever:
+    url: E:/image_sever/
+logging:
+  file:
+    max-history: 30
+    max-size: 200MB
+    name: logs/comm.log
+  level:
+    root: info
+    life.liudong.community.mapper: DEBUG
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: life.liudong.community.model.mapper
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: root
+    url: jdbc:mysql://localhost:3307/community?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    username: root
+  mvc:
+    static-path-pattern: /**
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.upload-path}
+web:
+  upload-path: E:/
+

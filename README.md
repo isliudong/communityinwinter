@@ -10,6 +10,7 @@ h2:spring.datasource.url=jdbc:h2:~/h2db
    spring.datasource.driver-class-name=org.h2.Driver
 
 ## 部署
+
 ##### 部署依赖
 - git
 - jdk
@@ -53,7 +54,7 @@ Hibernate的DAO层开发比MyBatis简单，Mybatis需要维护SQL和结果映射
 Hibernate对对象的维护和缓存要比MyBatis好，对增删改查的对象的维护要方便。
 Hibernate数据库移植性很好，MyBatis的数据库移植性不好，不同的数据库需要写不同SQL。
 Hibernate有更好的二级缓存机制，可以使用第三方缓存。MyBatis本身提供的缓存机制不佳
- 
+
 mybatis是另一种持久方案的实现
 MyBatis可以进行更为细致的SQL优化，可以减少查询字段。
 MyBatis容易掌握，而Hibernate门槛较高。

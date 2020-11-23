@@ -11,14 +11,14 @@
     <script src="/js/moment.js"></script>
     <script src="/js/community.js"> type = "application/javascript"</script>
 
-    <link rel="stylesheet" href="/editormd/css/editormd.preview.css" />
+    <link rel="stylesheet" href="/editormd/css/editormd.preview.css"/>
     <script src="/editormd/editormd.js"></script>
     <script src="/editormd/lib/marked.min.js"></script>
     <script src="/editormd/lib/prettify.min.js"></script>
 
 </head>
 <body>
-<div >
+<div>
     <div class="row">
         <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"></div>
         <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
@@ -38,20 +38,27 @@
         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-4">
                 <h3>账户设置</h3>
-                <form>
+                <form action="/setting/update" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="exampleInputFile">头像</label><br>
-                        <img class="img-thumbnail" src="/img/默认头像.png">
-                        <input type="file" id="exampleInputFile">
-                        <p class="help-block">Example block-level help text here.</p>
+                        <label for="fileUpload">当前头像</label><br>
+                        <img id="image" class="img-thumbnail" th:src="${user.avatarUrl}">
+                        <input type="file" name="img" id="fileUpload">
+                        <p class="help-block">新头像</p>
+                        <div id="image-holder"></div>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">邮箱</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                        <label for="exampleInputName">新昵称</label>
+                        <input type="text" name="name" class="form-control" id="exampleInputName" placeholder="Name">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">密码</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <label for="exampleInputEmail1">新邮箱</label>
+                        <input type="email" name="mail" class="form-control" id="exampleInputEmail1"
+                               placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">新密码</label>
+                        <input type="password" name="password" class="form-control" id="exampleInputPassword1"
+                               placeholder="Password">
                     </div>
                     <button type="submit" class="btn-default btn" style="margin-left: 0">保存修改</button>
                 </form>
@@ -62,5 +69,27 @@
         </div>
     </div>
 </div>
+<script>
+    $("#fileUpload").on('change', function () {
+        if (typeof (FileReader) != "undefined") {
+            var image_holder = $("#image-holder");
+            image_holder.empty();
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("<img />", {
+                    "src": e.target.result,
+                    "class": "thumb-image",
+                    "style": "width:138px;height:138px",
+                }).appendTo(image_holder);
+
+            };
+            image_holder.show();
+            reader.readAsDataURL($(this)[0].files[0]);
+        } else {
+            alert("你的浏览器不支持FileReader.");
+        }
+    });
+</script>
 </body>
 </html>

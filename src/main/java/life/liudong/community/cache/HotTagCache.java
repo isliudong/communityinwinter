@@ -2,6 +2,7 @@ package life.liudong.community.cache;
 
 import life.liudong.community.dto.HotTagDTO;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -14,6 +15,7 @@ import java.util.*;
 
 @Component
 @Data
+@Slf4j
 public class HotTagCache {
 
     private  Map<String,Integer> tags=new HashMap<>();
@@ -51,7 +53,7 @@ public class HotTagCache {
 
         }
 
-        System.out.println(hots);
+        log.info("==========>热点标签刷新完成");
 
 
     }

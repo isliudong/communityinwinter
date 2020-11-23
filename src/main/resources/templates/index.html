@@ -13,7 +13,7 @@
 <script type="application/javascript">
     window.onload = function () {
         let isClose = window.localStorage.getItem("isClose");
-        if (isClose == "true") {
+        if (isClose === "true") {
             debugger;
             window.close();
             window.localStorage.removeItem("isClose");

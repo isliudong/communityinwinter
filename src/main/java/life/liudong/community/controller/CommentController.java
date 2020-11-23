@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class CommentController {
 
     @ResponseBody//通过json返回数据
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public Object post(@RequestBody CommentCreateDTO commentCreateDTO, HttpServletRequest request) {
+    public Object post(@Valid @RequestBody CommentCreateDTO commentCreateDTO, HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
