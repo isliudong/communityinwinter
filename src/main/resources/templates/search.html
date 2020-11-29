@@ -81,7 +81,7 @@
         <h3>热点问题</h3>
         <ul class="question-related">
             <li th:each="tag:${topTags}">
-                <a th:href="@{/(page=1,search=${search},tag=${tag})}" th:text="${tag}"></a>
+                <a th:href="@{/(page=1,tag=${tag})}" th:text="${tag}"></a>
             </li>
         </ul>
     </div>

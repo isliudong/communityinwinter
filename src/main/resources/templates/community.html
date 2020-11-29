@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>社区</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"> type = "application/javascript"</script>
+
+</head>
+<script type="application/javascript">
+    window.onload = function () {
+        let isClose = window.localStorage.getItem("isClose");
+        if (isClose === "true") {
+            debugger;
+            window.close();
+            window.localStorage.removeItem("isClose");
+        }
+    }
+</script>
+<body>
+<div th:insert="navigation::nav"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2>
+                <a href="/community" style="color: black;"><span class="glyphicon glyphicon-list" aria-hidden="true">校园热点</span></a>
+                <a href="/" style="color: black; margin-left: 30px"><span class="glyphicon glyphicon-list" aria-hidden="true">发现知识</span></a>
+            </h2>
+
+            <hr>
+
+            <!--<div class="media" style="border: 1px solid #efefef;margin-top: 0;margin-bottom: -1px;padding: 16px 16px 0"
+                 th:each="question:${pagination.data}">
+                <div class="media-body">
+                    <div>
+                        <div>
+                            <h4 class="media-heading">
+                                <a th:href="@{'question/'+${question.id}}" th:text="${question.title}"></a>
+                            </h4>
+                            <span th:text="${#strings.abbreviate(question.description,25)}"></span>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="media-right">
+                    <a href="#">
+                        <img class="media-object img-rounded" style="margin-bottom: 16px;width: 190px;height: 105px;" src="/img/心情童年.jpg">
+                    </a>
+                </div>
+                <div>
+                            <span class="aw-question-content">
+                                <span th:text="${question.commentCount}"></span>个回复•
+                                <span th:text="${question.viewCount}"></span>次浏览•
+                                <span th:text="${#dates.format(question.gmtCreate,'HH: mm dd/MM/yyyy')}"></span>
+                            </span>
+                </div>
+            </div>-->
+            <div style="margin-bottom: -1px;background-color: #ffffff;display: flex;border: 1px solid #efefef;padding: 16px 16px 0;" th:each="question:${pagination.data}">
+                <div style="width: 86%;">
+                    <div>
+                        <h4 class="" style="word-break: break-all">
+                            <a th:href="@{'question/'+${question.id}}" th:text="${question.title}"></a>
+                        </h4>
+                    </div>
+                    <div style="width: 95%;height: 52%;">
+                        <span style="word-break: break-all;" th:text="${#strings.abbreviate(question.description,200)}"></span>
+                    </div>
+                    <div>
+                        <span class="aw-question-content">
+                                <span th:text="${question.commentCount}"></span>个回复•
+                                <span th:text="${question.viewCount}"></span>次浏览•
+                                <span th:text="${#dates.format(question.gmtCreate,'HH: mm dd/MM/yyyy')}"></span>
+                            </span>
+                    </div>
+                </div>
+                <div>
+                    <a href="#">
+                        <img class="media-object img-rounded" style="margin-bottom: 16px;width: 190px;height: 105px;"
+                             src="https://pic2.zhimg.com/80/v2-7c4d9f68dee7f8ac741c5aa239f38c45_400x224.png">
+                    </a>
+                </div>
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a th:href="@{/community(page=1,search=${search},tag=${tag})}" aria-label="Previous"
+                           th:if="${pagination.showFirstPage}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                        <a th:href="@{/community(page=(${pagination.page}-1),search=${search},tag=${tag})}" aria-label="Previous"
+                           th:if="${pagination.showPrevious}">
+                            <span aria-hidden="true">&lsaquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="page:${pagination.pages}" th:class="${pagination.page==page}?'active':''">
+                        <a th:href="@{/community(page=${page},search=${search},tag=${tag})}" th:text="${page}"></a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/community(page=(${pagination.page}+1),search=${search},tag=${tag})}" aria-label="Next"
+                           th:if="${pagination.showNext}">
+                            <span aria-hidden="true">&rsaquo;</span>
+                        </a>
+                        <a th:href="@{/community(page=${pagination.totalPage},search=${search},tag=${tag})}" aria-label="Next"
+                           th:if="${pagination.showEndPage}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>热点问题</h3>
+            <ul class="question-related">
+                <li th:each="tag:${topTags}">
+                    <a th:href="@{/community(page=1,search=${search},tag=${tag})}" th:text="${tag}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

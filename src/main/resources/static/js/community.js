@@ -69,7 +69,7 @@ function collapseComments(e) {
     } else {
         var subCommentContainer = $("#comment-" + id);
         //判断是否加载过，已经加载过则不再刷新
-        if (subCommentContainer.children().length != 1) {
+        if (subCommentContainer.children().length !== 1) {
             //展开二级评论
             comments.addClass("in");
             //标记二级评论展开状态
@@ -82,19 +82,28 @@ function collapseComments(e) {
                 //拼接二级评论页面(非常麻烦，所以有vue等框架)
                 $.each(data.data.reverse(), function (index, comment) {
 
-                    var mediaBodyElement = $("<div/>", {
-                        "class": "media-body"
-                    }).append($("<h5/>", {
-                        "class": "media-heading",
-                        "html": comment.user.name
-                    })).append($("<div/>", {
-                        "html": comment.content
-                    })).append($("<div/>", {
+                    let menu = $("<div/>", {
                         "class": "menu"
-                    }).append($("<span/>", {
+                    });
+                    let time = $("<span/>", {
                         "class": "pull-right",
                         "html": moment(comment.gmtCreate).format('HH: mm DD/MM/YYYY')
-                    })));
+                    });
+                    let subComment = $("<span/>", {
+                        "class": "glyphicon glyphicon-comment",
+                    });
+
+                    menu.append(time)
+                    menu.append(subComment)
+                    let subTitle = $("<h5/>", {
+                        "class": "media-heading",
+                        "html": comment.user.name+" 回复 "+comment.parentUser.name
+                    });
+                    var mediaBodyElement = $("<div/>", {
+                        "class": "media-body"
+                    }).append(subTitle).append($("<div/>", {
+                        "html": comment.content
+                    })).append(menu);
                     var avatarElement = $("<img/>", {
                         "class": "media-object img-rounded",
                         "src": comment.user.avatarUrl

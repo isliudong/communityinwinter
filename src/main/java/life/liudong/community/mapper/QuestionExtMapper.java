@@ -44,4 +44,11 @@ public interface QuestionExtMapper {
      * @return List<Question>
      */
     List<Question> selectBySearch(QuestionQueryDTO questionQueryDTO);
+
+    /**
+     * 返回id
+     * @param question 文章
+     * @return id
+     */
+    long insertAndReturnId(Question question);
 }

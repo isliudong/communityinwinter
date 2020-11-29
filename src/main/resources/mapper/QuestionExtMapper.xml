@@ -13,6 +13,11 @@
         <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount"/>
         <result column="TAG" jdbcType="VARCHAR" property="tag"/>
     </resultMap>
+    <insert id="insertAndReturnId" useGeneratedKeys="true" keyProperty="id" parameterType="life.liudong.community.model.Question">
+      INSERT INTO
+         QUESTION(title,gmt_create,gmt_modified,creator,comment_count,view_count,like_count,tag,description)
+      values (#{title},#{gmtCreate},#{gmtModified},#{creator},#{commentCount},#{viewCount},#{likeCount},#{tag},#{description});
+    </insert>
 
     <update id="incView" parameterType="life.liudong.community.model.Question">
     update QUESTION
@@ -34,30 +39,33 @@
   </select>
 
     <!--搜索查询问题数量语句-->
-    <select id="countBySearch" parameterType="life.liudong.community.dto.QuestionQueryDTO" resultType="java.lang.Integer">
-    select count(*) from QUESTION
-    <where>
-        <if test="search !=null">
-            and title regexp #{search}
-        </if>
-        <if test="tag !=null">
-            and tag regexp #{tag}
-        </if>
-    </where>
-  </select>
+    <select id="countBySearch" parameterType="life.liudong.community.dto.QuestionQueryDTO"
+            resultType="java.lang.Integer">
+        select count(*) from QUESTION
+        <where>
+            <if test="search !=null">
+                and title regexp #{search}
+            </if>
+            <if test="tag !=null">
+                and tag regexp #{tag}
+            </if>
+        </where>
+    </select>
 
 
     <!--搜索问题-->
     <select id="selectBySearch" parameterType="life.liudong.community.dto.QuestionQueryDTO" resultMap="BaseResultMap">
-    select * from QUESTION
-    <where>
-        <if test="search !=null">
-            and title regexp #{search}
-        </if>
-        <if test="tag !=null">
-            and tag regexp #{tag}
-        </if>
-    </where>
-    order by gmt_create desc limit #{page},#{size}
-  </select>
+        select * from QUESTION
+        <where>
+            <if test="search !=null">
+                and title regexp #{search}
+            </if>
+            <if test="tag !=null">
+                and tag regexp #{tag}
+            </if>
+        </where>
+        order by gmt_create desc limit #{page},#{size}
+    </select>
+
+
 </mapper>

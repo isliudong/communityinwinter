@@ -129,7 +129,16 @@ public class CommentService {
         return commentList.stream().map(comment -> {
             CommentDTO commentDTO = new CommentDTO();
             BeanUtils.copyProperties(comment, commentDTO);
+
+            Long parentId = comment.getParentId();
+
             commentDTO.setUser(userMap.get(comment.getCommentator()));
+            if(comment.getType()==1){
+                commentDTO.setParentUser(commentDTO.getUser());
+            }else {
+                commentDTO.setParentUser(userMapper
+                        .selectByPrimaryKey(commentMapper.selectByPrimaryKey(parentId).getCommentator()));
+            }
             return commentDTO;
         }).collect(Collectors.toList());
     }

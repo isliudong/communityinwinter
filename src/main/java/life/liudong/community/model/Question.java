@@ -1,5 +1,8 @@
 package life.liudong.community.model;
 
+import org.springframework.data.annotation.Id;
+
+
 public class Question {
     /**
      *
@@ -8,6 +11,7 @@ public class Question {
      *
      * @mbg.generated Sun Mar 15 16:58:07 CST 2020
      */
+    @Id
     private Long id;
 
     /**

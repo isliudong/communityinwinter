@@ -12,9 +12,7 @@ import life.liudong.community.utl.UserHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -47,6 +45,18 @@ public class SettingController {
             example.createCriteria().andAccountIdEqualTo(currentUser.getAccountId());
             model.addAttribute("user",userMapper.selectByExample(example).get(0));
         }
+        return "me";
+    }
+
+    @GetMapping("/personal/{action}")
+    public String personal(@PathVariable String action,Model model,HttpServletRequest request){
+        User currentUser = UserHelper.currentUser(request);
+        if(Objects.nonNull(currentUser)){
+            UserExample example = new UserExample();
+            example.createCriteria().andAccountIdEqualTo(currentUser.getAccountId());
+            model.addAttribute("user",userMapper.selectByExample(example).get(0));
+        }
+        model.addAttribute("section", action);
         return "me";
     }
 }

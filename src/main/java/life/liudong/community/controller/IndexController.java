@@ -47,6 +47,7 @@ public class IndexController {
             try {
                 pagination=questionService.getPageByIdInRedis(page);
             } catch (IOException | ClassNotFoundException e) {
+                pagination=questionService.list(null, null,page,size);
                 e.printStackTrace();
             }
         }else {pagination=questionService.list(search,tag,page,size);}
@@ -75,14 +76,14 @@ public class IndexController {
 
     @GetMapping("init-search")
     @ResponseBody
-    public void initEs() throws IOException {
+    public void initEs() {
         questionService.iniEs();
     }
 
     @GetMapping("quick-search")
     public String search(Model model, @RequestParam(name = "page",defaultValue = "0") Integer page,
                          @RequestParam(name = "size",defaultValue = "4") Integer size,
-                         @RequestParam(name="keyword",required = false) String keyword) {
+                         @RequestParam(name="keyword",defaultValue = "") String keyword) {
         List<String> topTags = hotTagCache.getHots();
         PaginationDTO<QuestionDTO> paginationDTO = questionService.quickList(keyword, page, size);
         model.addAttribute("pagination", paginationDTO);

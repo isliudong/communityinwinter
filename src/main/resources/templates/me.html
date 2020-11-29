@@ -11,14 +11,10 @@
     <script src="/js/moment.js"></script>
     <script src="/js/community.js"> type = "application/javascript"</script>
 
-    <link rel="stylesheet" href="/editormd/css/editormd.preview.css"/>
-    <script src="/editormd/editormd.js"></script>
-    <script src="/editormd/lib/marked.min.js"></script>
-    <script src="/editormd/lib/prettify.min.js"></script>
-
 </head>
 <body>
-<div>
+<div th:insert="navigation::nav"></div>
+<div class="container-fluid main">
     <div class="row">
         <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"></div>
         <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
@@ -34,14 +30,23 @@
                     <span>永远相信未来</span><br>
                 </div>
             </div>
+            <div class="list-group section">
+                <a href="/setting/personal/account" class="list-group-item " th:classappend="${section=='account'}?'active':''">账号与密码</a>
+                <a href="/setting/personal/message" class="list-group-item" th:classappend="${section=='message'}?'active':''">消息与邮件<span class="badge" th:text="${session.unreadNotificationCount}"></span></a>
+                <a href="/setting/personal/shield" class="list-group-item " th:classappend="${section=='shield'}?'active':''">屏蔽</a>
+                <a href="/setting/personal/privacy" class="list-group-item " th:classappend="${section=='privacy'}?'active':''">隐私</a>
+                <a href="/setting/personal/like" class="list-group-item " th:classappend="${section=='like'}?'active':''">偏好设置</a>
+                <a href="/setting/personal/recommendation" class="list-group-item " th:classappend="${section=='recommendation'}?'active':''">推荐</a>
+
+            </div>
         </div>
-        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-4">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='account'}">
                 <h3>账户设置</h3>
                 <form action="/setting/update" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="fileUpload">当前头像</label><br>
-                        <img id="image" class="img-thumbnail" th:src="${user.avatarUrl}">
+                        <img id="image" class="img-thumbnail " style="width: 90px" th:src="${user.avatarUrl}">
                         <input type="file" name="img" id="fileUpload">
                         <p class="help-block">新头像</p>
                         <div id="image-holder"></div>
@@ -63,7 +68,21 @@
                     <button type="submit" class="btn-default btn" style="margin-left: 0">保存修改</button>
                 </form>
             </div>
-
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='message'}">
+                消息
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='shield'}">
+                shield
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='privacy'}">
+                privacy
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='like'}">
+                like
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='recommendation'}">
+                recommendation
+            </div>
         </div>
         <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
         </div>

@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import life.liudong.community.dto.ResultDTO;
 import life.liudong.community.exception.CustomizeErrorCode;
 import life.liudong.community.exception.CustomizeException;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +22,7 @@ import java.io.PrintWriter;
  */
 
 @ControllerAdvice
+@Slf4j
 public class CustomizeExceptionHandler {
 
     @ExceptionHandler(Exception.class)
@@ -41,6 +42,7 @@ public class CustomizeExceptionHandler {
             }else{
                 //未知异常，统一返回系统错误
                 resultDTO = ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
+                log.error(ex.getMessage());
             }
 
             try {
@@ -66,6 +68,8 @@ public class CustomizeExceptionHandler {
                 error.addObject("message", "参数错误");
             }else {
                 error.addObject("message", CustomizeErrorCode.SYS_ERROR.getMessage());
+                ex.printStackTrace();
+                log.error(ex.getMessage());
             }
             return error;
         }

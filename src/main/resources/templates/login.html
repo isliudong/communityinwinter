@@ -1,43 +1,40 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/signin.css"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Signin</title>
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/signin.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>西柚社区</title>
     <link rel="stylesheet" href="/css/login.css">
-
 </head>
-
 <body>
-
 <div class="container">
-    <div>
-
-        <form class="form-signin" action="/goLogin" method="post">
-            <h2 class="form-signin-heading">西柚社区</h2>
-            <label for="inputName" class="sr-only">用户邮箱</label>
-            <input type="text" id="inputName" name="name" class="form-control" placeholder="用户邮箱" required autofocus>
-            <label for="inputPassword" class="sr-only">密码</label>
-            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" value="remember-me"> 记住密码
-                </label>
-                <a th:href="@{https://github.com/login/oauth/authorize(client_id=${clientId},redirect_uri=${redirect_url},scope='user',state=1)}">
-                    <img src="/img/GitHub.png" alt="..." class="media-object img-rounded other-img">
-                </a>
-                <a class="register_url" href="/register">我没有账号</a>
-            </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
-
-
-
-        </form>
-
+    <div class="info">
+        <h1>欢迎来到西柚社区</h1><span>你本来就很美</span>
     </div>
 </div>
+<div class="form">
+    <div class="thumbnail"><img src="/img/logo.png"/></div>
+    <form class="register-form" action="/register" method="post">
+        <input type="text" name="name" placeholder="name"/>
+        <input type="password" name="password" placeholder="password"/>
+        <input type="text" name="email" placeholder="email address"/>
+        <input type="hidden" name="emailCode" value="1234" placeholder="emailCode"/>
+        <button>create</button>
+        <p class="message">Already registered? <a href="#">去登录</a></p>
+    </form>
+    <form class="login-form" action="/goLogin" method="post">
+        <input type="text" name="name" placeholder="username"/>
+        <input type="password" name="password" placeholder="password"/>
+        <button>login</button>
+        <p class="other-ways"><a th:href="@{https://github.com/login/oauth/authorize(client_id=${clientId},redirect_uri=${redirect_url},scope='user',state=1)}">
+            <img style="margin-left: 270px;width: 26px" src="/img/GitHub.png" alt="..." class="media-object img-rounded other-img">
+        </a></p>
+        <p class="message">Not registered? <a href="#">去注册</a></p>
+    </form>
+</div>
+<script src='js/jquery-3.4.1.min.js'></script>
+<script src="js/login.js"></script>
+
 
 </body>
+
 </html>
