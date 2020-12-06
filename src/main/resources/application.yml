@@ -36,4 +36,3 @@ spring:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.upload-path}
 web:
   upload-path: E:/
-

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 项目未使用mq，仅用于测试
+ * 项目暂时未涉及mq，仅用于测试
  * @author LD
  * @since  2020-08-07 15:08
  **/

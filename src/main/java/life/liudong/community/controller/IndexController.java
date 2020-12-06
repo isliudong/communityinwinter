@@ -8,6 +8,7 @@ import life.liudong.community.service.QuestionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,7 +35,9 @@ public class IndexController {
         this.redisOp = redisOp;
     }
 
-    @GetMapping("/")
+
+    //todo spring security认证跳转post请求
+    @RequestMapping("/")
     public String index(Model model,
                         @RequestParam(name = "page",defaultValue = "1") Integer page,
                         @RequestParam(name = "size",defaultValue = "5") Integer size,

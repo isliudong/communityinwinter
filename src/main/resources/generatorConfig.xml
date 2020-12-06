@@ -7,8 +7,8 @@
     <context id="DB2Tables" targetRuntime="MyBatis3">
 
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin><!--分页插件，提供数据库查询分页-->
-        <jdbcConnection driverClass="org.h2.Driver"
-                        connectionURL="jdbc:h2:~/h2db;MV_STORE=false"
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3307/community?characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC&amp;rewriteBatchedStatements=true&amp;allowPublicKeyRetrieval=true"
                         userId="root"
                         password="root">
 

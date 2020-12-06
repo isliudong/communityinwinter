@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 /**
  * 全局异常切面
@@ -54,7 +55,7 @@ public class CustomizeExceptionHandler {
                 writer.write(JSON.toJSONString(resultDTO));
                 writer.close();
             } catch (IOException ioe) {
-                ioe.printStackTrace();
+                log.debug(Arrays.toString(ioe.getStackTrace()));
             }
             //不反回页面
             return null;
