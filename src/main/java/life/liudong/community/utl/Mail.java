@@ -98,7 +98,7 @@ public class Mail {
             protected PasswordAuthentication getPasswordAuthentication() {
                 // 第二个参数，就是我QQ开启smtp的授权码
                 String userAccount = "2351036454@qq.com";
-                String authorizationCode = "nkblibknbklrecdc";
+                String authorizationCode = "kbeydwkdhtpudidb";
                 return new PasswordAuthentication(userAccount, authorizationCode);
             }
 

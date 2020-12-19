@@ -6,7 +6,6 @@ import life.liudong.community.mapper.UserMapper;
 import life.liudong.community.model.User;
 import life.liudong.community.model.UserExample;
 import life.liudong.community.service.QuestionService;
-import life.liudong.community.utl.FileHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -42,7 +41,7 @@ public class TestController {
                            @RequestParam(name = "size", defaultValue = "5") Integer size,
                            @RequestParam(name = "search", required = false) String search) {
 
-        PaginationDTO<QuestionDTO> pagination = questionService.list(search, "", page, size);
+        PaginationDTO<QuestionDTO> pagination = questionService.list(search, "", page, size, "question");
         model.addAttribute("pagination", pagination);
         model.addAttribute("search", search);
         redisTemplate.opsForValue().set("test1", "redis值");

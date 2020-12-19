@@ -21,4 +21,6 @@ public class QuestionDTO implements Serializable {
     private Integer likeCount;
     private Integer commentCount;
     private User user;
+    private String imgUrl;
+    private String type;
 }

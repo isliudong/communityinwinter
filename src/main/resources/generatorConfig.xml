@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <context id="DB2Tables" targetRuntime="MyBatis3">
+    <context id="Mysql8Tables" targetRuntime="MyBatis3">
 
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin><!--分页插件，提供数据库查询分页-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3307/community?characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC&amp;rewriteBatchedStatements=true&amp;allowPublicKeyRetrieval=true"
                         userId="root"
                         password="root">
-
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
         <javaTypeResolver>
@@ -32,7 +32,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="user" domainObjectName="User">
+        <table tableName="USER" domainObjectName="User">
             <!--<property name="useActualColumnNames" value="true"/> 驼峰转换-->
             <!--<generatedKey column="ID" sqlStatement="DB2" identity="true" />重命名表属性-->
 
@@ -40,15 +40,15 @@
             <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />-->
         </table>
 
-        <table tableName="question" domainObjectName="Question">
+        <table tableName="QUESTION" domainObjectName="Question">
 
         </table>
 
-        <table tableName="comment" domainObjectName="Comment">
+        <table tableName="COMMENT" domainObjectName="Comment">
 
         </table>
 
-        <table tableName="notification" domainObjectName="Notification">
+        <table tableName="NOTIFICATION" domainObjectName="Notification">
 
         </table>
 

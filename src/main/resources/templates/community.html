@@ -79,7 +79,7 @@
                 <div>
                     <a href="#">
                         <img class="media-object img-rounded" style="margin-bottom: 16px;width: 190px;height: 105px;"
-                             src="https://pic2.zhimg.com/80/v2-7c4d9f68dee7f8ac741c5aa239f38c45_400x224.png">
+                             th:src="${question.imgUrl}">
                     </a>
                 </div>
             </div>
@@ -113,12 +113,26 @@
             </nav>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>热点问题</h3>
-            <ul class="question-related">
-                <li th:each="tag:${topTags}">
-                    <a th:href="@{/community(page=1,search=${search},tag=${tag})}" th:text="${tag}"></a>
-                </li>
-            </ul>
+            <div>
+                <h3>热点问题</h3>
+                <ul class="question-related">
+                    <li th:each="tag:${topTags}">
+                        <a th:href="@{/community(page=1,search=${search},tag=${tag})}" th:text="${tag}"></a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                回答问题
+                发视频
+                写文章
+                写想法
+            </div>
+            <div>
+                创作中心
+            </div>
+            <div>
+                推荐
+            </div>
         </div>
     </div>
 </div>

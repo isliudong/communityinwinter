@@ -4,7 +4,6 @@ import life.liudong.community.dto.PaginationDTO;
 import life.liudong.community.dto.QuestionDTO;
 import life.liudong.community.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +26,7 @@ public class RedisTask {
     @Scheduled(fixedRate = 300000)
     public void setFirstPage()  {
         PaginationDTO<QuestionDTO> paginationDTO;
-        paginationDTO=questionService.list(null, null, 1, 5);
+        paginationDTO=questionService.list(null, null, 1, 5, "article");
         //将首页写入缓存
         questionService.setPageInRedis(1, paginationDTO);
 

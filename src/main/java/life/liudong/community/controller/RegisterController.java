@@ -34,9 +34,9 @@ public class RegisterController {
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "password", required = false) String password,
             @RequestParam(value = "email", required = false) String email,
-            @RequestParam(value = "emailCode", required = false) String emailCode
+            @RequestParam(value = "code", required = false) String code
     ) {
-        if (emailCode != null && emailCode.equals(String.valueOf(this.emailCode))) {
+        if (code != null && code.equals(String.valueOf(this.emailCode))) {
             User newUser = new User();
             newUser.setToken(UUID.randomUUID().toString());
             newUser.setPassword(password);
@@ -49,7 +49,7 @@ public class RegisterController {
             return "redirect:/login";
         }
 
-        return "register";
+        return "login";
     }
 
     /**注册信息验证,未验证邮箱重复*/

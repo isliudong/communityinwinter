@@ -12,11 +12,14 @@
         <result column="VIEW_COUNT" jdbcType="INTEGER" property="viewCount"/>
         <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount"/>
         <result column="TAG" jdbcType="VARCHAR" property="tag"/>
+        <result column="IMG_URL" jdbcType="VARCHAR" property="imgUrl"/>
+        <result column="TYPE" jdbcType="VARCHAR" property="type"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
     </resultMap>
     <insert id="insertAndReturnId" useGeneratedKeys="true" keyProperty="id" parameterType="life.liudong.community.model.Question">
       INSERT INTO
-         QUESTION(title,gmt_create,gmt_modified,creator,comment_count,view_count,like_count,tag,description)
-      values (#{title},#{gmtCreate},#{gmtModified},#{creator},#{commentCount},#{viewCount},#{likeCount},#{tag},#{description});
+         QUESTION(title,gmt_create,gmt_modified,creator,comment_count,view_count,like_count,tag,description,img_url,type)
+      values (#{title},#{gmtCreate},#{gmtModified},#{creator},#{commentCount},#{viewCount},#{likeCount},#{tag},#{description},#{imgUrl},#{type});
     </insert>
 
     <update id="incView" parameterType="life.liudong.community.model.Question">
@@ -49,6 +52,9 @@
             <if test="tag !=null">
                 and tag regexp #{tag}
             </if>
+            <if test="type !=null">
+                and type regexp #{type}
+            </if>
         </where>
     </select>
 
@@ -62,6 +68,9 @@
             </if>
             <if test="tag !=null">
                 and tag regexp #{tag}
+            </if>
+            <if test="type !=null">
+                and type regexp #{type}
             </if>
         </where>
         order by gmt_create desc limit #{page},#{size}

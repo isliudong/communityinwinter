@@ -30,7 +30,6 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -54,7 +53,9 @@ public class QuestionService {
     private final RestHighLevelClient restHighLevelClient;
     private final EsService esService;
 
-    public QuestionService(QuestionExtMapper questionExtMapper, UserMapper userMapper, QuestionMapper questionMapper, RedisOp<PaginationDTO<QuestionDTO>> redisOp, RestHighLevelClient restHighLevelClient, EsService esService) {
+    public QuestionService(QuestionExtMapper questionExtMapper, UserMapper userMapper,
+                           QuestionMapper questionMapper, RedisOp<PaginationDTO<QuestionDTO>> redisOp,
+                           RestHighLevelClient restHighLevelClient, EsService esService) {
         this.questionExtMapper = questionExtMapper;
         this.userMapper = userMapper;
         this.questionMapper = questionMapper;
@@ -63,7 +64,7 @@ public class QuestionService {
         this.esService = esService;
     }
 
-    public PaginationDTO<QuestionDTO> list(String search, String tag, Integer page, Integer size) {
+    public PaginationDTO<QuestionDTO> list(String search, String tag, Integer page, Integer size, String type) {
 
         //关键词为空
         if (StringUtils.isNotBlank(search)) {
@@ -79,6 +80,7 @@ public class QuestionService {
         QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
         questionQueryDTO.setTag(tag);
         questionQueryDTO.setSearch(search);
+        questionQueryDTO.setType(type);
         //简单强转为int，用户不多
         Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         if (totalCount % size == 0) {

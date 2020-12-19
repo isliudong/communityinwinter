@@ -1,6 +1,6 @@
 /* Form */
 .form {
-  position: relative;
+  position: absolute;
   z-index: 1;
   background: #FFFFFF;
   max-width: 300px;

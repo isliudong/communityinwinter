@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ public class CommunityController {
     {
 
         PaginationDTO<QuestionDTO> pagination;
-        pagination=questionService.list(search,tag,page,size);
+        pagination=questionService.list(search,tag,page,size, "question");
 
         List<String> topTags = hotTagCache.getHots();
         model.addAttribute("pagination",pagination);

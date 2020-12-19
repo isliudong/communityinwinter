@@ -50,10 +50,10 @@ public class IndexController {
             try {
                 pagination=questionService.getPageByIdInRedis(page);
             } catch (IOException | ClassNotFoundException e) {
-                pagination=questionService.list(null, null,page,size);
+                pagination=questionService.list(null, null,page,size, "article");
                 e.printStackTrace();
             }
-        }else {pagination=questionService.list(search,tag,page,size);}
+        }else {pagination=questionService.list(search,tag,page,size, "article");}
 
         List<String> topTags = hotTagCache.getHots();
         model.addAttribute("pagination",pagination);

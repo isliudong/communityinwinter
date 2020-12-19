@@ -44,8 +44,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //拦截
+        http.headers().frameOptions().disable();
         http.authorizeRequests()//.antMatchers("/security").authenticated()
-
                 //放行
                 .anyRequest().permitAll()
                 //允许表单登录
