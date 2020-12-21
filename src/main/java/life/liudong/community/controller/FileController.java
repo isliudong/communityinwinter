@@ -21,27 +21,28 @@ import java.util.UUID;
  */
 @Controller
 public class FileController {
-    @Value("${image.sever.url}")
-    private String imgSever;
+    @Value("${image.server.url}")
+    private String imgServer;
+    @Value("${web.upload-path}")
+    private String fileServer;
 
 
     @ResponseBody
     @RequestMapping("/file/upload")
-    public FileDTO upload(HttpServletRequest request){
+    public FileDTO upload(HttpServletRequest request) {
 
-        MultipartHttpServletRequest multipartHttpServletRequest= (MultipartHttpServletRequest) request;
-        MultipartFile file=multipartHttpServletRequest.getFile("editormd-image-file");
-
+        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+        MultipartFile file = multipartHttpServletRequest.getFile("editormd-image-file");
 
 
         //得到上传时的原文件名
-        if(file==null){
+        if (file == null) {
             throw new CustomizeException(CustomizeErrorCode.NULL_FILE);
         }
 
         String originalFilename = file.getOriginalFilename();
         //获取文件后缀名
-        if(originalFilename==null){
+        if (originalFilename == null) {
             throw new CustomizeException(CustomizeErrorCode.NO_FILE_NAME);
         }
         String suffixName = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -49,7 +50,7 @@ public class FileController {
         String name = UUID.randomUUID().toString().replaceAll("-", "");
         String saveName = name + suffixName;
         //虚拟存储服务器
-        String picDir = imgSever;
+        String picDir = imgServer;
         //图片存储全路径
         String outputPath = picDir + saveName;
 
@@ -64,7 +65,8 @@ public class FileController {
         FileDTO fileDTO = new FileDTO();
         fileDTO.setSuccess(1);
         fileDTO.setMessage("success");
-        fileDTO.setUrl("/image_sever/"+saveName);
+        String url = imgServer.substring(fileServer.length()-1);
+        fileDTO.setUrl(url + saveName);
         return fileDTO;
     }
 }
