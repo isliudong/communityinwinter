@@ -32,7 +32,7 @@ github:
   redirect:
     url: http://thinkingshare.icu/callback
 image:
-  sever:
+  server:
     url: /file-server/image/
 web:
   upload-path: /file-server/
